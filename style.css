@@ -1,0 +1,358 @@
+/* CSS Variables for a Modern Dev Portfolio Theme */
+:root {
+    --bg-color: #050505;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --accent-color: #00ffcc;
+    --card-bg: #111111;
+    --border-color: #222222;
+    --transition-speed: 0.4s;
+    --nav-height: 90px; /* Increased to accommodate a larger logo comfortably */
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.7;
+    scroll-behavior: smooth;
+}
+
+a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+a:hover {
+    color: var(--accent-color);
+}
+
+/* Typography */
+h1, h2, h3 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 1.5rem; }
+h3 { font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--text-primary); }
+p { color: var(--text-secondary); margin-bottom: 1rem; font-size: 1.05rem; }
+
+.highlight {
+    color: var(--accent-color);
+}
+
+/* Section Headings */
+.section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.section-title {
+    font-size: 2.2rem; 
+    border-bottom: 1px solid var(--border-color); 
+    padding-bottom: 0.5rem; 
+    display: inline-block;
+    margin: 0;
+}
+
+/* Layout Containers */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+section {
+    padding: 6rem 0;
+    scroll-margin-top: var(--nav-height); 
+}
+
+/* Shared Wrapper for Centering Content Modules */
+.content-wrapper {
+    max-width: 850px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+/* Explicit Gap Fixes */
+.projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 3.5rem; /* Gap below the last project card */
+}
+
+.experience-wrapper {
+    margin-bottom: 3.5rem; /* Gap below the last experience item */
+}
+
+/* Navbar */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(5, 5, 5, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--nav-height);
+}
+
+.brand-logo {
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.brand-logo img {
+    height: 100%;
+    object-fit: contain;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+}
+
+.nav-links a {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: var(--nav-height);
+}
+
+/* Hero Content - Reverted to Left-Aligned */
+.hero-content {
+    max-width: 800px;
+    text-align: left; 
+}
+
+.hero-subtitle {
+    color: var(--accent-color);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-family: monospace;
+    letter-spacing: 0.05em;
+}
+
+.hero-description {
+    font-size: 1.2rem; 
+    margin-top: 1.5rem; 
+    max-width: 700px;
+}
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2.5rem;
+}
+
+.skill-tag {
+    background: rgba(0, 255, 204, 0.05);
+    border: 1px solid rgba(0, 255, 204, 0.2);
+    padding: 0.4rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    font-weight: 500;
+    transition: background var(--transition-speed);
+}
+
+.skill-tag:hover {
+    background: rgba(0, 255, 204, 0.15);
+}
+
+/* Projects Section */
+.project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2.5rem;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
+    cursor: pointer;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 255, 204, 0.05);
+    border-color: rgba(0, 255, 204, 0.3);
+}
+
+.project-content {
+    max-height: 85px; 
+    overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card.expanded .project-content {
+    max-height: 800px; 
+}
+
+.deep-dive {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.deep-dive strong {
+    color: var(--text-primary);
+}
+
+.action-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: opacity var(--transition-speed);
+}
+
+.action-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+.expand-btn {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+    font-weight: 600;
+    font-family: inherit;
+}
+
+/* Timeline (Experience & Certifications) */
+.timeline-item {
+    border-left: 2px solid var(--border-color);
+    padding-left: 2.5rem;
+    position: relative;
+    padding-bottom: 2.5rem;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    background: var(--bg-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+}
+
+.timeline-date {
+    font-size: 0.85rem;
+    font-family: monospace;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.company {
+    color: var(--text-primary); 
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+/* Badge for Job Simulations */
+.badge {
+    display: inline-block;
+    background: rgba(0, 255, 204, 0.1);
+    color: var(--accent-color);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: 0.8rem;
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(0, 255, 204, 0.2);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 4rem 0;
+    border-top: 1px solid var(--border-color);
+    background: #080808;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.social-links a {
+    border: 1px solid var(--border-color);
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.social-links a:hover {
+    border-color: var(--accent-color);
+    background: rgba(0, 255, 204, 0.05);
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    h1 { font-size: 2.5rem; }
+    .nav-links { display: none; }
+    .social-links { flex-direction: column; gap: 1rem; }
+    .badge { margin-left: 0; margin-top: 0.5rem; display: block; width: max-content; }
+}

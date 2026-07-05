@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muneef Mumthas | UNEE</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="brand-logo">
+                <img src="Unee%20new%20logo%20full.png" alt="UNEE Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="about">
+        <div class="container hero-content fade-in">
+            <p class="hero-subtitle">Hi, I'm Muneef Mumthas</p>
+            <h1>Bridging AI Theory <br> <span class="highlight">& Real-World Usability.</span></h1>
+            <p class="hero-description">
+                I'm a First Class Artificial Intelligence graduate with practical experience in building, training, and deploying machine learning and deep learning models. I'm passionate about scalable AI solutions, automation, and research-driven innovation.
+            </p>
+            
+            <div class="skills">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">AWS</span>
+                <span class="skill-tag">Machine Learning</span>
+                <span class="skill-tag">Deep Learning</span>
+                <span class="skill-tag">Artificial Intelligence</span>
+                <span class="skill-tag">C# / C++ / Java</span>
+                <span class="skill-tag">Data Cleaning / Optimisation</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="container">
+        <div class="section-header fade-in">
+            <h2 class="section-title">Selected Projects</h2>
+        </div>
+        <div class="content-wrapper projects-grid">
+            
+            <div class="project-card fade-in" onclick="toggleCard(this)">
+                <h3>UNEEFLOW (Low-Code ML App)</h3>
+                <div class="project-content">
+                    <p>A structured desktop application that guides users through complete Machine Learning workflows, from dataset import to model training and deployment, all without coding.</p>
+                    <div class="deep-dive">
+                        <strong>Deep Dive:</strong> The system includes auto-generated user interfaces for model testing, and a localised Large Language Model (LLM) for an enhanced user experience and learning environment.
+                        <br><br>
+                        <a href="https://muneefmumthas.itch.io/uneeflow" target="_blank" rel="noopener noreferrer" class="action-link" onclick="event.stopPropagation();">View and download on itch.io ↗</a>
+                    </div>
+                </div>
+                <button class="expand-btn">Read More</button>
+            </div>
+
+            <div class="project-card fade-in" onclick="toggleCard(this)">
+                <h3>AWS Secure Web System</h3>
+                <div class="project-content">
+                    <p>Designed and deployed a secure, reliable, and cost-efficient cloud-based system on AWS for a hypothetical rental agency.</p>
+                    <div class="deep-dive">
+                        <strong>Deep Dive:</strong> Implemented a dynamic website with a contact form storing submissions in DynamoDB. Configured core AWS services including EC2, IAM, VPC, and Security Groups, focusing heavily on security, scalability, and availability.
+                    </div>
+                </div>
+                <button class="expand-btn">Read More</button>
+            </div>
+
+            <div class="project-card fade-in" onclick="toggleCard(this)">
+                <h3>House Price Prediction Research</h3>
+                <div class="project-content">
+                    <p>Investigated structural vs. location attributes in price forecasting to deliver accurate market valuations.</p>
+                    <div class="deep-dive">
+                        <strong>Deep Dive:</strong> Compared Linear Regression, SVR, Decision Tree, and Random Forest models across six datasets. Achieved a maximum R² score of 0.99 and an RMSE of £1,548.
+                    </div>
+                </div>
+                <button class="expand-btn">Read More</button>
+            </div>
+
+             <div class="project-card fade-in" onclick="toggleCard(this)">
+                <h3>Hybrid Loan Approval System</h3>
+                <div class="project-content">
+                    <p>Developed an explainable AI system combining interpretability and predictive performance for the financial sector.</p>
+                    <div class="deep-dive">
+                        <strong>Deep Dive:</strong> Created a fuzzy-logic model aligned with neural network feature importances to ensure transparent, robust, and fair loan approval predictions.
+                    </div>
+                </div>
+                <button class="expand-btn">Read More</button>
+            </div>
+
+            <div class="project-card fade-in" onclick="toggleCard(this)">
+                <h3>Adversarial AI Opponent Engine</h3>
+                <div class="project-content">
+                    <p>Engineered a Python-based evaluation environment demonstrating algorithmic game theory and adversarial decision-making processes.</p>
+                    <div class="deep-dive">
+                        <strong>Deep Dive:</strong> Implemented multiple intelligent agents using Random, Minimax, and custom Hybrid heuristic algorithms. The system features dynamic difficulty scaling and interactive visual feedback to analyse agent behaviour in real-time.
+                    </div>
+                </div>
+                <button class="expand-btn">Read More</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="experience" class="container">
+        <div class="section-header fade-in">
+            <h2 class="section-title">Experience</h2>
+        </div>
+        <div class="content-wrapper experience-wrapper">
+            <div class="timeline-item fade-in">
+                <div class="timeline-date">Feb 2026 - Jun 2026</div>
+                <h3>Programmer / Research Assistant</h3>
+                <p class="company">Buckinghamshire New University, UK</p>
+                <p>Led the development of a privacy-first AI system for analysing architectural survey plans against UK regulations. This involved using localised LLMs in partnership with Mosaic Building Design.</p>
+                <p>Independently architected and deployed scalable pipelines, applying machine learning, model optimisation, and rule-based validation for intelligent decision support.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications" class="container">
+        <div class="section-header fade-in">
+            <h2 class="section-title">Certifications</h2>
+        </div>
+        <div class="content-wrapper">
+            <div class="timeline-item fade-in">
+                <div class="timeline-date">Forage</div>
+                <h3>British Airways Data Science <span class="badge">Job Simulation</span></h3>
+                <p>Scraped and analysed customer reviews, and built predictive models to inform strategic decisions.</p>
+            </div>
+            
+            <div class="timeline-item fade-in">
+                <div class="timeline-date">Forage</div>
+                <h3>Cognizant AI <span class="badge">Job Simulation</span></h3>
+                <p>Completed exploratory data analysis, modelling, evaluation and QA, and delivered insights via Python modules and presentations.</p>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-date">MongoDB</div>
+                <h3>MongoDB Fundamentals</h3>
+                <p>Gained expertise in database administration, aggregation, and security.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container fade-in">
+            <h2 class="section-title" style="border: none;">Let's Connect</h2>
+            <p style="max-width: 600px; margin: 1rem auto 2rem; color: var(--text-secondary);">
+                I'm currently seeking roles where I can contribute to scalable AI solutions, automation, and research-driven innovation.
+            </p>
+            <div class="social-links">
+                <a href="mailto:muneef.mumthas@outlook.com">Email</a>
+                <a href="https://www.linkedin.com/in/muneefmumthas/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="http://github.com/MuneefMumthas" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+            <p style="font-size: 0.9rem; margin-top: 4rem; color: #555;">&copy; 2026 Muneef Mumthas (UNEE). All rights reserved.</p>
+        </div>
+        
+    </footer>
+
+</body>
+</html>
