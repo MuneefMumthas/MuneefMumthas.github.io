@@ -1,0 +1,16 @@
+---
+import Base from "../layouts/Base.astro";
+import { meta, site } from "../content";
+---
+
+<Base title={meta.notFound.title} back={{ href: "/", label: site.home }} footer={false}>
+  <main class="page lost">
+    <h1 class="page__title">404</h1>
+    <p class="page__headline">{meta.notFound.body}</p>
+    <p><a class="btn btn--solid" href="/">{meta.notFound.link}</a></p>
+  </main>
+</Base>
+
+<style>
+  .lost { min-height: calc(100svh - 72px); display: grid; align-content: center; gap: 24px; }
+</style>

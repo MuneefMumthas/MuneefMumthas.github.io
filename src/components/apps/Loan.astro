@@ -1,0 +1,108 @@
+---
+import { loan } from "../../content";
+import rules from "../../assets/loan-rules.json";
+const max = 100;
+---
+
+<article class="app" id="loan" data-app="loan">
+  <div class="wrap">
+    <div class="intro intro--split">
+      <p class="t-label">{loan.eyebrow}</p>
+      <h2 class="t-headline">{loan.title}</h2>
+      <div class="prose">{loan.body.map((p) => <p>{p}</p>)}</div>
+    </div>
+
+    <div class="block loanm">
+      <h3 class="t-title">{loan.models.title}</h3>
+      <ol class="loanm__bars">
+        {
+          loan.models.items.map((m, i) => (
+            <li style={`--v:${m.accuracy / max}; --k:${i}`} class:list={{ "is-tree": i === loan.models.items.length - 1 }}>
+              <span class="loanm__name"><b>{m.name}</b><span>{m.detail}</span></span>
+              <span class="loanm__track"><span class="loanm__fill"></span></span>
+              <span class="loanm__num t-mono">{m.accuracy}%</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <div class="block loand" data-loan data-labels={JSON.stringify(loan.demo.labels)} data-words={JSON.stringify({ met: loan.demo.met, support: loan.demo.support, confidence: loan.demo.confidence, yes: loan.demo.yes, no: loan.demo.no })} data-names={JSON.stringify(Object.fromEntries(loan.demo.inputs.map((i) => [i.id, i.label])))}>
+      <form class="loand__inputs" data-loan-form>
+        <h3>{loan.demo.title}</h3>
+        {
+          loan.demo.inputs.map((input) =>
+            input.kind === "toggle" ? (
+              <fieldset class="loand__toggle">
+                <legend>{input.label}</legend>
+                <label><input type="radio" name={input.id} value="1" checked={input.value === 1} />{loan.demo.yes}</label>
+                <label><input type="radio" name={input.id} value="0" checked={input.value === 0} />{loan.demo.no}</label>
+              </fieldset>
+            ) : (
+              <label class="loand__range">
+                <span>{input.label}<output class="t-mono" data-out={input.id}>{input.value.toFixed(2)}</output></span>
+                <input type="range" name={input.id} min="0" max="1" step="0.01" value={input.value} />
+              </label>
+            ),
+          )
+        }
+      </form>
+      <div class="loand__result" aria-live="polite">
+        <p class="t-label">{loan.demo.matched}</p>
+        <p class="loand__verdict" data-verdict></p>
+        <p class="loand__meta t-mono" data-meta></p>
+        <ol class="loand__conds" data-conds></ol>
+      </div>
+      <script type="application/json" data-rules set:html={JSON.stringify(rules)} />
+    </div>
+    <p class="caption">{loan.demo.note}</p>
+
+    <p class="t-label loan__stack">{loan.stack}</p>
+    <p class="links">{loan.links.map((l) => <a class="link" href={l.href} rel="noopener">{l.label}</a>)}</p>
+  </div>
+</article>
+
+<style is:global>
+  .loanm__bars { display: grid; gap: 10px; margin-top: 18px; }
+  .loanm__bars li { display: grid; grid-template-columns: minmax(0, 1fr) 56px; grid-template-areas: "name num" "track track"; gap: 6px 12px; align-items: center; }
+  .loanm__name { grid-area: name; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+  .loanm__name b { font-weight: 600; }
+  .loanm__name span { color: var(--muted); font-size: 14px; }
+  .loanm__track { grid-area: track; height: 10px; border-radius: 99px; background: color-mix(in srgb, var(--fg) 8%, transparent); overflow: hidden; }
+  .loanm__fill { display: block; height: 100%; width: calc(var(--v) * 100%); border-radius: inherit; background: var(--fg); transform-origin: left; transform: scaleX(clamp(0, calc((var(--enter, 1) - var(--k) * 0.08) / 0.5), 1)); }
+  .loanm__bars .is-tree .loanm__fill { background: var(--accent); }
+  .loanm__num { grid-area: num; text-align: right; }
+  @container os (min-width: 800px) {
+    .loanm__bars li { grid-template-columns: minmax(0, 300px) minmax(0, 1fr) 64px; grid-template-areas: "name track num"; }
+  }
+
+  .loand { display: grid; gap: 16px; padding: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+  .loand__inputs { display: grid; gap: 14px; align-content: start; }
+  .loand__inputs h3, .loand__toggle legend { font-weight: 600; }
+  .loand__inputs h3 { font-size: 20px; }
+  .loand__toggle { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
+  .loand__toggle legend { float: left; margin-right: 12px; font-size: 15px; }
+  .loand__toggle label { display: inline-flex; gap: 6px; align-items: center; min-height: 32px; }
+  .loand__range { display: grid; gap: 4px; font-size: 15px; }
+  .loand__range > span { display: flex; justify-content: space-between; gap: 12px; }
+  .loand__range input { width: 100%; accent-color: var(--accent); }
+  .loand__result { display: grid; gap: 8px; align-content: start; padding: 18px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line); }
+  .loand__verdict { font-size: clamp(24px, 3cqw, 32px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+  .loand__verdict.is-yes { color: #3ecf8e; }
+  .loand__verdict.is-no { color: #ef7b5b; }
+  .loand__meta { font-size: 12px; color: var(--muted); }
+  .loand__conds { display: grid; gap: 6px; margin-top: 6px; }
+  .loand__conds li { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); font-size: 14px; animation: app-in 400ms var(--ease-arrive) both; animation-delay: calc(var(--k) * 40ms); }
+  .loand__conds li::before { content: "✓"; color: #3ecf8e; font-weight: 700; }
+  .loand__conds li.is-miss { color: var(--muted); }
+  .loand__conds li.is-miss::before { content: "✗"; color: #ef7b5b; }
+  .loand__conds .t-mono { font-size: 12px; }
+  .loan__stack { margin-top: 20px; line-height: 1.6; }
+  @container os (min-width: 900px) {
+    .loand { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); padding: 26px; gap: 26px; }
+  }
+</style>
+
+<script>
+  import "../../scripts/loan";
+</script>

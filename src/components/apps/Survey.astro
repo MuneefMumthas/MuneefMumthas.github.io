@@ -1,0 +1,49 @@
+---
+import { research } from "../../content";
+const n = research.pipeline.length;
+---
+
+<article class="app" id="survey" data-app="survey">
+  <div class="wrap">
+    <div class="intro intro--split">
+      <p class="t-label">{research.eyebrow}</p>
+      <h2 class="t-headline">{research.title}</h2>
+      <div class="prose">{research.body.map((p) => <p>{p}</p>)}</div>
+    </div>
+
+    <!-- The plan moves through six steps and never crosses the boundary. Driven by --enter. -->
+    <figure class="block rflow theme-light" style={`--n:${n}`}>
+      <div class="rflow__box" role="img" aria-label={research.diagramAlt}>
+        <p class="t-label rflow__title">{research.boundary}</p>
+        <ol class="rflow__steps">
+          {research.pipeline.map((step, i) => <li style={`--k:${i}`}><span class="t-mono">{String(i + 1).padStart(2, "0")}</span>{step}</li>)}
+        </ol>
+      </div>
+      <figcaption class="rflow__out t-label">{research.outside}</figcaption>
+    </figure>
+
+  </div>
+</article>
+
+<style is:global>
+  .rflow { display: grid; gap: 14px; }
+  .rflow__box { position: relative; padding: 28px 20px 24px; border: 2px solid var(--ink); border-radius: var(--radius); background: var(--white); clip-path: inset(0 calc((1 - clamp(0, calc(var(--enter, 1) / 0.3), 1)) * 100%) 0 0 round var(--radius)); }
+  .rflow__title { color: var(--ink); margin-bottom: 18px; }
+  .rflow__steps { display: grid; gap: 8px; }
+  .rflow__steps li {
+    --g: clamp(0, calc((var(--enter, 1) - 0.3 - var(--k) * 0.1) / 0.1), 1);
+    display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 10px 14px; border: 1px solid var(--line-strong); border-radius: 12px; font-weight: 600; line-height: 1.25;
+    background: color-mix(in srgb, var(--accent) calc(var(--g) * (1 - var(--g2)) * 100%), var(--white));
+    --g2: clamp(0, calc((var(--enter, 1) - 0.4 - var(--k) * 0.1) / 0.1), 1);
+    opacity: var(--g);
+  }
+  .rflow__steps .t-mono { font-size: 11px; font-weight: 400; color: var(--muted); }
+  .rflow__out { justify-self: end; display: flex; align-items: center; gap: 10px; }
+  .rflow__out::before { content: ""; width: 56px; height: 0; border-top: 2px dashed var(--line-strong); }
+  @container os (min-width: 900px) {
+    .rflow__box { padding: 36px; }
+    .rflow__steps { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 10px; }
+    .rflow__steps li { flex-direction: column; align-items: flex-start; justify-content: space-between; min-height: 116px; }
+  }
+
+</style>

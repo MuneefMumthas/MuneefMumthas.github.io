@@ -1,0 +1,11 @@
+---
+import Detail from "./Detail.astro";
+import { contact, site } from "../content";
+---
+
+<footer class="foot">
+  <ul class="foot__grid">
+    {contact.details.map((d) => <Detail {...d} />)}
+  </ul>
+  <p class="foot__base"><span>{site.footer.copyright}</span><a href="#top" data-top>{site.footer.top}</a></p>
+</footer>

@@ -1,0 +1,305 @@
+---
+import { ecosystem, ui } from "../../content";
+
+const s = ecosystem.suite;
+const openApps = s.apps.filter((app) => app.open);
+const icons: Record<string, string> = {
+  tasks: "M5 6h14M5 12h9M5 18h6M17 15l2 2 3-4",
+  admin: "M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z",
+  crm: "M4 18c1-4 4-5 8-5s7 1 8 5M12 10a3.5 3.5 0 100-7 3.5 3.5 0 000 7z",
+  finance: "M4 20V10M10 20V4M16 20v-7M22 20H2",
+  hr: "M8 11a3 3 0 100-6 3 3 0 000 6zM16 11a3 3 0 100-6 3 3 0 000 6zM2 19c1-3 3-4 6-4s5 1 6 4M14 15c3 0 6 1 7 4",
+  me: "M12 12a4 4 0 100-8 4 4 0 000 8zM4 20c1-4 4-5 8-5s7 1 8 5",
+  proposals: "M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5",
+};
+const short = (text: string) => text.slice(0, 10);
+---
+
+<article class="app" id="suite" data-app="suite">
+  <div class="wrap">
+    <div class="intro intro--split">
+      <p class="t-label">{ecosystem.eyebrow}</p>
+      <h2 class="t-headline">{ecosystem.title}</h2>
+      <div class="prose">{ecosystem.body.map((p) => <p>{p}</p>)}</div>
+    </div>
+
+    <div class="block">
+      <div class="frame suite" data-suite data-view="home">
+        <aside class="suite__side">
+          <p class="suite__brand"><span class="suite__mark" aria-hidden="true"></span>{s.name}</p>
+          <nav aria-label={s.name}>
+            <ul class="suite__nav">
+              <li><button type="button" data-go="home" aria-current="true">{s.home.back}</button></li>
+              {openApps.map((app) => <li><button type="button" data-go={app.id}>{app.name}</button></li>)}
+            </ul>
+          </nav>
+          <p class="suite__user">
+            <span class="suite__avatar" aria-hidden="true">{s.user[0]}</span>
+            <span><b>{s.user}</b><br /><span class="suite__dim">{s.role}</span></span>
+            <button type="button" class="suite__out" data-go="signin">{s.home.signOut}</button>
+          </p>
+        </aside>
+
+        <div class="suite__main">
+          <section class="suite__pane" data-pane="signin" aria-label={s.signIn.title}>
+            <div class="suite__signin">
+              <h3 class="suite__h">{s.signIn.title}</h3>
+              <p class="suite__field"><span>{s.signIn.emailLabel}</span><b>{s.signIn.email}</b></p>
+              <p class="suite__field"><span>{s.signIn.codeLabel}</span><b class="suite__code" data-code={s.signIn.code}>{s.signIn.code}</b></p>
+              <button type="button" class="suite__btn" data-signin>{s.signIn.button}</button>
+              <p class="suite__dim">{s.signIn.hint}</p>
+            </div>
+          </section>
+
+          <section class="suite__pane" data-pane="home" aria-label={s.home.back}>
+            <h3 class="suite__h">{s.home.greeting}</h3>
+            <p class="suite__dim">{s.home.sub}</p>
+            <ul class="suite__apps">
+              {
+                s.apps.map((app, i) => (
+                  <li style={`--i:${i}`}>
+                    {app.open ? (
+                      <button type="button" class="suite__app" data-go={app.id}>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons[app.id]} /></svg>
+                        <b>{app.name}</b>
+                        <span>{app.does}</span>
+                      </button>
+                    ) : (
+                      <div class="suite__app suite__app--static">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons[app.id]} /></svg>
+                        <b>{app.name}</b>
+                        <span>{app.does}</span>
+                        <span class="suite__dim">{s.notInDemo}</span>
+                      </div>
+                    )}
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
+
+          <section class="suite__pane" data-pane="tasks" aria-label={s.tasks.kicker}>
+            <p class="suite__kicker">{s.tasks.kicker}</p>
+            <h3 class="suite__h">{s.tasks.title}</h3>
+            <p class="suite__dim">{s.tasks.tip}</p>
+            <div class="suite__board" data-board>
+              {
+                s.tasks.columns.map((col) => (
+                  <div class="suite__col" data-col={col.id}>
+                    <p class="suite__colname">{col.name}</p>
+                    <ul>
+                      {
+                        s.tasks.cards
+                          .filter((card) => card.col === col.id)
+                          .map((card) => (
+                            <li class="suite__card" tabindex="0" data-card={card.id} data-title={card.title}>
+                              <span class="suite__cardtitle">{card.title}</span>
+                              <span class="suite__who" aria-hidden="true">{card.who}</span>
+                              <span class="suite__moves">
+                                <button type="button" data-move="-1" aria-label={`${s.tasks.back}: ${card.title}`}>←</button>
+                                <button type="button" data-approve hidden>{s.tasks.approve}</button>
+                                <button type="button" data-move="1" aria-label={`${s.tasks.forward}: ${card.title}`}>→</button>
+                              </span>
+                            </li>
+                          ))
+                      }
+                    </ul>
+                  </div>
+                ))
+              }
+            </div>
+          </section>
+
+          <section class="suite__pane" data-pane="admin" aria-label={s.admin.kicker}>
+            <p class="suite__kicker">{s.admin.kicker}</p>
+            <h3 class="suite__h">{s.admin.title}</h3>
+            <p class="suite__dim">{s.admin.intro}</p>
+            <div class="suite__releases">
+              {
+                s.admin.releases.map((release) => (
+                  <div class="suite__release" data-release={release.app}>
+                    <b>{release.app}</b>
+                    <ul>
+                      {
+                        release.versions.map((version, i) => (
+                          <li data-version={version} data-live={i === 0 ? "true" : "false"}>
+                            <span class="suite__ver">{version}</span>
+                            <span class="suite__chip">{s.admin.signed}</span>
+                            <span class="suite__chip suite__chip--live">{s.admin.live}</span>
+                            <button type="button" class="suite__btn suite__btn--ghost" data-rollback>{s.admin.rollBack}</button>
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  </div>
+                ))
+              }
+            </div>
+            <h4 class="suite__h suite__h--small">{s.admin.auditTitle}</h4>
+            <p class="suite__dim">{s.admin.auditIntro}</p>
+            <div class="suite__audit">
+              <table>
+                <thead><tr>{s.admin.columns.map((c) => <th scope="col">{c}</th>)}</tr></thead>
+                <tbody data-audit>
+                  {s.admin.seed.map((action, i) => <tr><td>{i + 1}</td><td>{action}</td><td>{short("················")}</td><td>{short("················")}</td></tr>)}
+                </tbody>
+              </table>
+            </div>
+            <p class="suite__auditbar">
+              <button type="button" class="suite__btn" data-verify>{s.admin.verify}</button>
+              <button type="button" class="suite__btn suite__btn--ghost" data-tamper>{s.admin.tamper}</button>
+              <span data-verdict role="status"></span>
+            </p>
+          </section>
+
+          <section class="suite__pane" data-pane="crm" aria-label={s.crm.kicker}>
+            <p class="suite__kicker">{s.crm.kicker}</p>
+            <h3 class="suite__h">{s.crm.title}</h3>
+            <p class="suite__dim">{s.crm.intro}</p>
+            <p class="suite__lead"><b>{s.crm.lead.name}</b><span>{s.crm.lead.need}</span></p>
+            <ol class="suite__flow" data-flow data-step="0">
+              {
+                s.crm.steps.map((step, i) => (
+                  <li data-index={i}>
+                    <span class="suite__kicker">{step.label}</span>
+                    <b>{step.done}</b>
+                    {step.action && <button type="button" class="suite__btn" data-advance>{step.action}</button>}
+                  </li>
+                ))
+              }
+            </ol>
+            <button type="button" class="suite__btn suite__btn--ghost" data-flow-reset>{s.crm.reset}</button>
+          </section>
+        </div>
+      </div>
+      <p class="caption"><span class="tag">{ui.recreated}</span><span>{ecosystem.caption}</span></p>
+    </div>
+
+    <ul class="block eco__points">
+      {
+        ecosystem.points.map((point) => (
+          <li>
+            <h3 class="t-label">{point.name}</h3>
+            <p>{point.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</article>
+
+<script type="application/json" id="suite-data" set:html={JSON.stringify({ columns: s.tasks.columns, log: s.log, admin: { intact: s.admin.intact, broken: s.admin.broken, tampered: s.admin.tampered, tamper: s.admin.tamper, restore: s.admin.restore, seed: s.admin.seed }, apps: Object.fromEntries(s.apps.map((a) => [a.id, a.name])), tasks: { submitted: s.tasks.submitted, approved: s.tasks.approved } })} />
+<script>
+  import "../../scripts/suite";
+</script>
+
+<style is:global>
+  .eco__points { display: grid; gap: 32px 48px; }
+  .eco__points li { display: grid; gap: 8px; align-content: start; }
+  @container os (min-width: 800px) {
+    .eco__points { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  /* The recreated suite has its own quiet palette so it reads as a product, not as part of the page. */
+  .suite {
+    --s-bg: #fbfaf7; --s-card: #ffffff; --s-ink: #16181a; --s-dim: #636a70; --s-line: #e4e2dc; --s-accent: #1f3d33; --s-tint: #eef3f0;
+    display: grid; background: var(--s-bg); color: var(--s-ink); font-size: 15px; line-height: 1.45;
+    box-shadow: 0 30px 60px -40px rgba(11, 11, 12, 0.35);
+  }
+  .suite button { cursor: pointer; }
+  .suite__side { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 14px 16px; background: var(--s-card); border-bottom: 1px solid var(--s-line); }
+  .suite__brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; margin-right: auto; }
+  .suite__mark { width: 22px; height: 22px; border-radius: 7px; background: var(--s-accent); box-shadow: inset 0 0 0 5px var(--s-accent), inset 0 0 0 7px #fff; }
+  .suite__nav { display: flex; flex-wrap: wrap; gap: 4px; }
+  .suite__nav button { min-height: 44px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; font-weight: 500; }
+  .suite__nav button:hover { background: var(--s-tint); }
+  .suite__nav button[aria-current="true"] { background: var(--s-ink); color: #fff; }
+  .suite__user { display: none; align-items: center; gap: 10px; font-size: 13px; line-height: 1.3; }
+  .suite__avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--s-tint); display: grid; place-items: center; font-weight: 600; }
+  .suite__out { margin-left: auto; min-height: 44px; padding: 0 10px; border: 0; background: transparent; text-decoration: underline; font-size: 13px; }
+  .suite__dim { color: var(--s-dim); font-size: 14px; }
+  /* Fixed height: switching apps or adding audit rows scrolls inside the suite instead of growing the page. */
+  .suite__main { padding: 22px 16px; height: 560px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; min-width: 0; }
+  .suite__pane { display: none; gap: 14px; align-content: start; }
+  .suite[data-view="signin"] [data-pane="signin"], .suite[data-view="home"] [data-pane="home"], .suite[data-view="tasks"] [data-pane="tasks"],
+  .suite[data-view="admin"] [data-pane="admin"], .suite[data-view="crm"] [data-pane="crm"] { display: grid; }
+  .suite[data-view="signin"] .suite__nav, .suite[data-view="signin"] .suite__user { visibility: hidden; }
+  .suite__h { font-size: clamp(24px, 2.6cqw, 32px); line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; }
+  .suite__h--small { font-size: 20px; margin-top: 18px; }
+  .suite__kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--s-dim); }
+  .suite__btn { min-height: 44px; padding: 0 16px; border: 1px solid var(--s-accent); border-radius: 10px; background: var(--s-accent); color: #fff; font-weight: 600; font-size: 14px; justify-self: start; }
+  .suite__btn--ghost { background: transparent; color: var(--s-accent); }
+  .suite__chip { font-size: 12px; padding: 3px 8px; border-radius: 999px; background: var(--s-tint); color: var(--s-accent); font-weight: 600; }
+
+  .suite__signin { display: grid; gap: 14px; width: min(100%, 340px); margin: 32px auto; padding: 28px; background: var(--s-card); border: 1px solid var(--s-line); border-radius: 18px; }
+  .suite__field { display: grid; gap: 4px; padding: 10px 12px; border: 1px solid var(--s-line); border-radius: 10px; }
+  .suite__field span { font-size: 12px; color: var(--s-dim); }
+  .suite__code { font-family: var(--mono); letter-spacing: 0.12em; min-height: 1.45em; }
+  .suite__signin .suite__btn { justify-self: stretch; }
+
+  .suite__apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-top: 8px; }
+  .suite__app { display: grid; gap: 4px; align-content: start; width: 100%; height: 100%; min-height: 136px; padding: 18px; text-align: left; background: var(--s-card); border: 1px solid var(--s-line); border-radius: 16px; transition: border-color var(--t-state) var(--ease-state), transform var(--t-state) var(--ease-state); }
+  .suite__app svg { width: 32px; height: 32px; padding: 6px; margin-bottom: 8px; border-radius: 9px; background: var(--s-ink); fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .suite__app b { font-size: 17px; }
+  .suite__app span { font-size: 13px; color: var(--s-dim); }
+  button.suite__app:hover { border-color: var(--s-ink); transform: translateY(-2px); }
+  .suite__app--static { background: transparent; border-style: dashed; }
+  .suite__app--static svg { background: transparent; stroke: var(--s-ink); border: 1px solid var(--s-line); }
+  /* After sign-in the apps arrive one by one: one sign-in, many apps. */
+  .suite.is-assembling .suite__apps li { animation: suite-arrive 520ms var(--ease-arrive) both; animation-delay: calc(var(--i) * 70ms); }
+  @keyframes suite-arrive { from { opacity: 0; transform: translateY(14px) scale(0.97); } }
+
+  .suite__board { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(190px, 1fr); gap: 10px; overflow-x: auto; padding-bottom: 6px; }
+  .suite__col { background: #f3f1ec; border-radius: 14px; padding: 10px; min-height: 250px; transition: background-color var(--t-state) var(--ease-state); }
+  .suite__col.is-target { background: var(--s-tint); outline: 2px dashed var(--s-accent); outline-offset: -2px; }
+  .suite__colname { font-weight: 600; font-size: 13px; padding: 4px 6px 10px; }
+  .suite__col ul { display: grid; gap: 8px; min-height: 40px; }
+  .suite__card { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 12px; background: var(--s-card); border: 1px solid var(--s-line); border-left: 3px solid var(--s-accent); border-radius: 10px; cursor: grab; user-select: none; }
+  .suite__card.is-dragging { opacity: 0.9; box-shadow: 0 14px 28px -12px rgba(0, 0, 0, 0.4); cursor: grabbing; position: relative; z-index: 5; }
+  .suite__cardtitle { font-weight: 600; font-size: 14px; }
+  .suite__who { width: 26px; height: 26px; border-radius: 50%; background: var(--s-tint); font-size: 10px; font-weight: 700; display: grid; place-items: center; }
+  .suite__moves { grid-column: 1 / -1; display: flex; gap: 6px; justify-content: space-between; }
+  .suite__moves button { min-width: 44px; min-height: 44px; border: 1px solid var(--s-line); border-radius: 8px; background: transparent; font-size: 13px; font-weight: 600; }
+  .suite__moves button:hover { border-color: var(--s-ink); }
+  .suite__moves [data-approve] { background: var(--s-accent); color: #fff; border-color: var(--s-accent); padding: 0 12px; }
+
+  .suite__releases { display: grid; gap: 10px; }
+  .suite__release { display: grid; gap: 8px; padding: 14px; background: var(--s-card); border: 1px solid var(--s-line); border-radius: 14px; }
+  .suite__release li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; min-height: 44px; }
+  .suite__ver { font-family: var(--mono); font-size: 14px; min-width: 6ch; }
+  .suite__release li[data-live="true"] [data-rollback], .suite__release li[data-live="false"] .suite__chip--live { display: none; }
+  .suite__chip--live { background: var(--s-accent); color: #fff; }
+  .suite__audit { overflow-x: auto; background: var(--s-card); border: 1px solid var(--s-line); border-radius: 14px; }
+  .suite__audit table { width: 100%; font-size: 13px; }
+  .suite__audit th, .suite__audit td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--s-line); white-space: nowrap; }
+  .suite__audit td:nth-child(2) { white-space: normal; min-width: 22ch; }
+  .suite__audit td:nth-child(n + 3) { font-family: var(--mono); font-size: 12px; color: var(--s-dim); }
+  .suite__audit tr:last-child td { border-bottom: 0; }
+  .suite__audit tr.is-new td { animation: suite-new 1400ms var(--ease-state); }
+  @keyframes suite-new { from { background: #e4dbff; } }
+  .suite__audit tr.is-bad td { background: #fdecea; color: #8c1d18; }
+  .suite__auditbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .suite__auditbar [data-verdict] { font-weight: 600; font-size: 14px; }
+
+  .suite__lead { display: grid; gap: 2px; padding: 14px; background: var(--s-card); border: 1px solid var(--s-line); border-radius: 14px; }
+  .suite__lead span { color: var(--s-dim); font-size: 14px; }
+  .suite__flow { display: grid; gap: 10px; }
+  .suite__flow li { display: grid; gap: 8px; padding: 16px; border: 1px dashed var(--s-line); border-radius: 14px; opacity: 0.45; transition: opacity var(--t-state) var(--ease-state), background-color var(--t-state) var(--ease-state); }
+  .suite__flow li b, .suite__flow li .suite__btn { display: none; }
+  .suite__flow[data-step="0"] li[data-index="0"], .suite__flow[data-step="1"] li:is([data-index="0"], [data-index="1"]), .suite__flow[data-step="2"] li { opacity: 1; background: var(--s-card); border-style: solid; }
+  .suite__flow[data-step="0"] li[data-index="0"] :is(b, .suite__btn), .suite__flow[data-step="1"] li[data-index="1"] :is(b, .suite__btn), .suite__flow[data-step="1"] li[data-index="0"] b,
+  .suite__flow[data-step="2"] li b { display: block; }
+  @container os (min-width: 800px) {
+    .suite__flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @container os (min-width: 900px) {
+    .suite { grid-template-columns: 220px minmax(0, 1fr); }
+    .suite__side { flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 22px; padding: 22px 16px; border-bottom: 0; border-right: 1px solid var(--s-line); }
+    .suite__brand { margin-right: 0; }
+    .suite__nav { flex-direction: column; }
+    .suite__nav button { width: 100%; text-align: left; }
+    .suite__user { display: flex; flex-wrap: wrap; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--s-line); }
+    .suite__main { padding: 34px 36px; height: 640px; }
+  }
+</style>

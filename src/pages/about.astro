@@ -1,0 +1,64 @@
+---
+import Base from "../layouts/Base.astro";
+import { Image } from "astro:assets";
+import { about, portrait, site } from "../content";
+import photo from "../assets/portrait.jpg";
+const words = [...about.marquee, ...about.marquee];
+---
+
+<Base title="About · Muneef Mumthas" back={{ href: "/", label: site.home }}>
+  <main class="page about">
+    <h1 class="page__title rise">{about.title}</h1>
+    <div class="about__bio" data-fill>
+      {about.bio.map((p) => <p>{p}</p>)}
+      <p>{about.publish.text} <a class="link" href={about.publish.link.href} rel="noopener">{about.publish.link.label}</a></p>
+    </div>
+
+    <figure class="about__photo rise">
+      <Image src={photo} alt={portrait.alt} widths={[400, 640, 900]} sizes="(min-width: 800px) 36vw, 90vw" loading="lazy" />
+    </figure>
+
+    <section class="about__tools" id="tools" aria-labelledby="tools-title">
+      <h2 class="about__h rise" id="tools-title">{about.toolsTitle}</h2>
+      <dl>
+        {
+          about.tools.map((group, i) => (
+            <div class="rise" style={`--d:${i}`}>
+              <dt>{group.name}</dt>
+              <dd>{group.items.join(" · ")}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </main>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__row">{words.map((w) => <span>{w}</span>)}</div>
+  </div>
+</Base>
+
+<style>
+  .about__bio { margin-top: clamp(40px, 6vw, 88px); margin-left: auto; width: min(100%, 860px); display: grid; gap: 0.9em; font-size: clamp(24px, 2.6vw, 36px); line-height: 1.28; letter-spacing: -0.025em; font-weight: 500; }
+  /* Each word starts grey and turns to full colour as the text moves up the screen. Grey still reads at 3:1. */
+  .about__bio :global(.word) { color: #646469; transition: color 380ms var(--ease-state); }
+  :global([data-theme="light"]) .about__bio :global(.word) { color: #858589; }
+  .about__bio :global(.word.is-lit) { color: var(--fg); }
+  .about__photo { margin: clamp(48px, 7vw, 110px) 0 0 auto; width: min(100%, 460px); aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: #111; }
+  .about__photo :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .about__tools { margin-top: var(--section); scroll-margin-top: 24px; }
+  .about__h { font-size: 14px; font-weight: 500; color: var(--muted); margin-bottom: 18px; }
+  .about__tools dl { display: grid; }
+  .about__tools dl > div { display: grid; gap: 6px 32px; padding-block: 22px; border-top: 1px solid var(--line); }
+  .about__tools dt { font-size: clamp(18px, 1.6vw, 22px); font-weight: 500; letter-spacing: -0.02em; }
+  .about__tools dd { color: var(--muted); font-size: 16px; line-height: 1.6; }
+  @media (min-width: 800px) {
+    .about__tools dl > div { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+  }
+  .marquee { overflow: hidden; margin-inline: calc(var(--pad) * -1); padding-block: 8px 40px; }
+  .marquee__row { display: flex; width: max-content; animation: marquee 42s linear infinite; }
+  .marquee__row span { font-size: clamp(48px, 7.4vw, 112px); font-weight: 500; letter-spacing: -0.045em; white-space: nowrap; }
+  .marquee__row span::after { content: "/"; padding-inline: 0.35em; color: var(--muted); }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+</style>

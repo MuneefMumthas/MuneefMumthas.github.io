@@ -1,0 +1,33 @@
+---
+import { assistant } from "../../content";
+---
+
+<article class="app" id="assistant" data-app="assistant">
+  <div class="ask" data-ask data-endpoint={assistant.endpoint} data-error={assistant.error} data-you={assistant.you} data-name={assistant.eyebrow}>
+    <div class="intro">
+      <p class="t-label">{assistant.eyebrow}</p>
+      <h2 class="t-headline">{assistant.title}</h2>
+      <p class="t-muted">{assistant.intro}</p>
+    </div>
+    <ol class="ask__thread" data-thread aria-live="polite"></ol>
+    <form class="ask__form" data-form>
+      <label class="visually-hidden" for="ask-input">{assistant.placeholder}</label>
+      <input id="ask-input" name="q" type="text" autocomplete="off" placeholder={assistant.placeholder} required maxlength="500" />
+      <button class="btn btn--solid" type="submit">{assistant.send}</button>
+    </form>
+  </div>
+</article>
+
+<script>
+  import "../../scripts/assistant";
+</script>
+
+<style is:global>
+  .ask { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 18px; min-height: 100%; max-width: 760px; }
+  .ask__thread { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; min-height: 120px; }
+  .ask__thread li { max-width: 86%; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--line); white-space: pre-wrap; }
+  .ask__thread li[data-role="user"] { align-self: flex-end; background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .ask__thread li[data-role="error"] { border-color: var(--accent); color: var(--muted); }
+  .ask__form { display: flex; gap: 8px; }
+  .ask__form input { flex: 1; min-width: 0; min-height: 48px; padding: 0 16px; border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--fg); font: inherit; }
+</style>

@@ -1,0 +1,23 @@
+---
+import { identity, site } from "../content";
+
+interface Props {
+  back?: { href: string; label: string };
+}
+const { back } = Astro.props;
+---
+
+<header class="top">
+  {
+    back ? (
+      <a class="top__back" href={back.href} data-roll>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4" /></svg>
+        {back.label}
+      </a>
+    ) : (
+      <a href="/" data-roll>{identity.name}</a>
+    )
+  }
+  <a class="top__role" href="/" data-role data-roll>{site.role}</a>
+  <button type="button" class="theme" data-theme-toggle aria-label={site.theme.label} title={site.theme.label}><span></span></button>
+</header>

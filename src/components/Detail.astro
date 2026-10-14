@@ -1,0 +1,17 @@
+---
+// One contact detail: a small label over a large link. Email addresses may break before the @, never mid-word.
+interface Props {
+  label: string;
+  value: string;
+  href: string;
+  class?: string;
+  style?: string;
+}
+const { label, value, href, class: className, style } = Astro.props;
+const [first, ...rest] = value.split("@");
+---
+
+<li class:list={["detail", className]} style={style}>
+  <span>{label}</span>
+  <a href={href} rel={href.startsWith("http") ? "noopener" : undefined}>{first}{rest.length > 0 && <><wbr />@{rest.join("@")}</>}</a>
+</li>

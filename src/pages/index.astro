@@ -1,0 +1,244 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import Arrow from "../components/Arrow.astro";
+import Resume from "../components/Resume.astro";
+import { assistant, homePage, identity, portrait } from "../content";
+import uBlack from "../assets/brand/u-black.svg";
+import uWhite from "../assets/brand/u-white.svg";
+import photo from "../assets/portrait.jpg";
+
+const c = homePage.cards;
+const h = homePage.hover;
+
+// Each logo is defined once as a symbol and drawn with <use>, so the drifting row can repeat without repeating the artwork.
+const files = import.meta.glob<string>("../assets/tools/*.svg", { eager: true, query: "?raw", import: "default" });
+const symbols = homePage.tools.map(({ id }) => {
+  const raw = files[`../assets/tools/${id}.svg`];
+  const [, attrs, inner] = raw.match(/<svg([^>]*)>([\s\S]*)<\/svg>/)!;
+  const viewBox = attrs.match(/viewBox="([^"]+)"/)![1];
+  const fill = attrs.match(/\sfill="([^"]+)"/)?.[1] ?? "currentColor";
+  return `<symbol id="tool-${id}" viewBox="${viewBox}" fill="${fill}">${inner}</symbol>`;
+});
+---
+
+<Base footer={false}>
+  <main class="home">
+    <h1 class="home__name" aria-label={identity.name}><span class="home__word" data-word aria-hidden="true">{identity.name}</span></h1>
+    <nav class="bento" aria-label={identity.name} data-bento data-name={identity.name}>
+      <a class="card home__about" href="/about/" style="--i:0" data-hover={h.about}>
+        <span class="card__label">{c.about}<Arrow /></span>
+      </a>
+      <a class="card home__work" href="/work/" style="--i:1" data-hover={h.work}>
+        <span class="card__label">{c.work}<Arrow /></span>
+      </a>
+      <a class="card home__contact" href="/contact/" style="--i:2" data-hover={h.contact}>
+        <span class="card__label">{c.contact}<Arrow /></span>
+      </a>
+      <a class="card home__mark" href={homePage.uneeverse.href} rel="noopener" aria-label={homePage.uneeverse.label} style="--i:3" data-hover={h.mark}>
+        <img class="mark mark--on-light" src={uBlack.src} width="132" height="132" alt="" />
+        <img class="mark mark--on-dark" src={uWhite.src} width="132" height="132" alt="" />
+      </a>
+      <div class="card home__photo" style="--i:4" data-hover={h.photo}>
+        <Image src={photo} alt={portrait.alt} widths={[320, 480, 640]} sizes="(min-width: 760px) 24vw, 48vw" loading="eager" />
+      </div>
+      <div class="home__side">
+        <section class="card home__tools" aria-label={c.tools} style="--i:5" data-hover={h.tools}>
+          <svg class="sprite" aria-hidden="true" set:html={symbols.join("")} />
+          <div class="tools__window">
+            <div class="tools">
+              {
+                [0, 1].map((copy) => (
+                  <ul class="tools__row" aria-hidden={copy === 1 ? "true" : undefined}>
+                    {homePage.tools.map(({ id, name }) => (
+                      <li title={name}>
+                        <svg role="img" aria-label={name}><use href={`#tool-${id}`} /></svg>
+                      </li>
+                    ))}
+                  </ul>
+                ))
+              }
+            </div>
+          </div>
+        </section>
+        {
+          assistant.endpoint ? (
+            <a class="card home__corner" href="/assistant/" style="--i:6" data-hover={h.assistant}>
+              <span class="card__label">{c.assistant}<Arrow /></span>
+            </a>
+          ) : (
+            <button type="button" class="card home__corner" style="--i:6" data-hover={h.resume} data-resume-open aria-haspopup="dialog">
+              <span class="card__label">{c.resume}<Arrow /></span>
+            </button>
+          )
+        }
+      </div>
+    </nav>
+  </main>
+  <Resume />
+</Base>
+
+<style>
+  .home {
+    /* The name always fits on one line: it is about 7.4 times as wide as its font size. */
+    --name: min(11.6vw, 178px, (100vw - 2 * var(--pad)) / 7.7);
+    position: relative;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+    /* Clip so cards sliding up on arrival never make the page briefly scrollable. */
+    overflow: clip;
+    height: calc(100svh - 72px);
+    min-height: 600px;
+    padding-bottom: var(--pad);
+  }
+  /* The name sits behind the cards. Where a card covers it, the frosted glass blurs it.
+     Hovering a card swaps it for that card's word: letters sink behind the cards, the new ones rise out of them. */
+  .home__name {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--name) * 0.06);
+    z-index: 0;
+    text-align: center;
+    font-weight: 500;
+    font-size: var(--name);
+    line-height: 0.92;
+    letter-spacing: -0.06em;
+    white-space: nowrap;
+    pointer-events: none;
+    padding-bottom: 0.1em;
+    overflow: hidden;
+    animation: name-in 1400ms var(--ease-arrive) both;
+  }
+  @keyframes name-in {
+    from { opacity: 0; filter: blur(26px); transform: translateY(40px) scale(0.97); }
+  }
+  .home__word { display: inline-block; transition: translate 0ms; }
+  .home__word :global(.ch) { display: inline-block; white-space: pre; transition: transform 560ms var(--ease-arrive), filter 560ms var(--ease-arrive); }
+  .home__word :global(.ch.is-out) { transform: translateY(105%); filter: blur(6px); transition-timing-function: cubic-bezier(0.5, 0, 0.75, 0); transition-duration: 380ms; }
+  .home__word :global(.ch.is-below) { transform: translateY(105%); filter: blur(6px); transition: none; }
+
+  .bento {
+    position: relative;
+    z-index: 1;
+    margin-top: calc(var(--name) * 0.68);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "about work work work" "contact mark photo side";
+    gap: var(--gap);
+  }
+  .bento .card { animation: card-in 1100ms var(--ease-arrive) both; animation-delay: calc(380ms + var(--i, 0) * 85ms); }
+  @keyframes card-in {
+    from { opacity: 0; transform: translateY(46px) scale(0.98); }
+  }
+  .home__about { grid-area: about; }
+  .home__work { grid-area: work; }
+  .home__contact { grid-area: contact; }
+  .home__mark { grid-area: mark; align-items: center; justify-content: center; }
+  .home__photo { grid-area: photo; padding: 0; background: #111; }
+  .home__photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transition: transform 1100ms var(--ease-arrive); }
+  .home__photo:hover :global(img) { transform: scale(1.04); }
+  .home__side { grid-area: side; display: grid; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: var(--gap); }
+  .home__corner { font: inherit; color: inherit; text-align: left; cursor: pointer; }
+
+  /* The UNEEVERSE U, in monochrome: black on the light theme, white on the dark theme. */
+  .mark { width: 40%; height: auto; max-height: 58%; object-fit: contain; transition: transform 900ms var(--ease-arrive); }
+  .home__mark:hover .mark { transform: scale(1.06) rotate(-3deg); }
+  :global([data-theme="dark"]) .mark--on-light, :global([data-theme="light"]) .mark--on-dark { display: none; }
+
+  /* Tools: logo tiles drifting slowly across the card, without stopping. The second copy makes the loop seamless. */
+  .home__tools { justify-content: center; }
+  .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .tools__window { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+  .tools { display: flex; width: max-content; animation: drift 70s linear infinite; }
+  .tools__row { display: flex; gap: 12px; padding-right: 12px; }
+  .tools__row li { display: grid; place-items: center; width: var(--tile, 72px); aspect-ratio: 1; border-radius: 18px; background: var(--glass-hover); color: var(--fg); }
+  .tools__row svg { width: 46%; height: 46%; }
+  @keyframes drift {
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 759px) {
+    .home { height: auto; min-height: calc(100svh - 72px); }
+    .bento {
+      margin-top: calc(var(--name) * 0.9);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: none;
+      grid-auto-rows: minmax(150px, auto);
+      grid-template-areas: "about photo" "work work" "contact mark" "side side";
+    }
+    .home__about, .home__photo { min-height: 200px; }
+    .home__work { min-height: 200px; }
+    .home__side { grid-template-rows: none; }
+    .home__tools { min-height: 120px; --tile: 60px; }
+    .home__corner { min-height: 150px; }
+  }
+</style>
+
+<script>
+  // The big name turns into the word of whichever card is hovered or focused, then back when the pointer leaves.
+  const bento = document.querySelector<HTMLElement>("[data-bento]");
+  const word = document.querySelector<HTMLElement>("[data-word]");
+  if (bento && word) {
+    const name = bento.dataset.name!;
+    const h1 = word.parentElement!;
+    const STAGGER = 22;
+    const split = (text: string, below: boolean) =>
+      word.replaceChildren(
+        ...[...text].map((ch, i) => {
+          const span = document.createElement("span");
+          span.className = below ? "ch is-below" : "ch";
+          span.textContent = ch;
+          span.style.transitionDelay = `${i * STAGGER}ms`;
+          return span;
+        }),
+      );
+    split(name, false);
+
+    let current = name;
+    let wanted = name;
+    let timer = 0;
+    // Always centred. If the word is asked to change while letters are leaving, the latest request wins;
+    // if it is asked to stay as it is, the leaving letters come straight back.
+    const swap = (text: string) => {
+      wanted = text;
+      clearTimeout(timer);
+      const letters = [...word.children] as HTMLElement[];
+      if (text === current) {
+        letters.forEach((l, i) => {
+          l.style.transitionDelay = `${i * STAGGER}ms`;
+          l.classList.remove("is-out");
+        });
+        return;
+      }
+      letters.forEach((l, i) => {
+        l.style.transitionDelay = `${i * (STAGGER * 0.6)}ms`;
+        l.classList.add("is-out");
+      });
+      timer = window.setTimeout(() => {
+        current = wanted;
+        split(current, true);
+        void word.offsetWidth;
+        [...word.children].forEach((l) => l.classList.remove("is-below"));
+      }, 300 + letters.length * STAGGER * 0.6);
+    };
+
+    // Each card swaps the word in; leaving a card, into a gap or off the cards altogether, brings the name back.
+    let leave = 0;
+    const back = () => {
+      clearTimeout(leave);
+      leave = window.setTimeout(() => swap(name), 90);
+    };
+    bento.querySelectorAll<HTMLElement>("[data-hover]").forEach((card) => {
+      const enter = () => {
+        clearTimeout(leave);
+        swap(card.dataset.hover!);
+      };
+      card.addEventListener("pointerenter", enter);
+      card.addEventListener("pointerleave", back);
+      card.addEventListener("focus", enter);
+      card.addEventListener("blur", back);
+    });
+  }
+</script>

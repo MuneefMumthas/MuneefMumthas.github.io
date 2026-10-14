@@ -1,0 +1,63 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import { site, work } from "../../content";
+
+const shots = import.meta.glob<{ default: ImageMetadata }>("../../assets/shots/*.png", { eager: true });
+const image = (name: string) => shots[`../../assets/shots/${name}.png`].default;
+---
+
+<Base title="Work · Muneef Mumthas" back={{ href: "/", label: site.home }}>
+  <main class="page">
+    <h1 class="page__headline rise">{work.title}</h1>
+    <ul class="works">
+      {
+        work.items.map((item, i) => (
+          <li class:list={[{ "is-wide": item.wide }, "rise"]} style={`--d:${i % 2}`}>
+            <a class="card work" href={`/work/${item.slug}/`}>
+              <span class="work__img">
+                <Image
+                  src={image(item.image)}
+                  alt={`${item.name} ${work.imageAlt}`}
+                  widths={[480, 800, 1200, 1600]}
+                  sizes={item.wide ? "(min-width: 900px) 80vw, 84vw" : "(min-width: 900px) 40vw, 84vw"}
+                  loading={i < 2 ? "eager" : "lazy"}
+                />
+              </span>
+              <span class="work__meta">
+                <b>{item.name}{item.mock && <em class="work__mock">{work.mockTag}</em>}</b>
+                <span>{item.category}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</Base>
+
+<style>
+  .works { display: grid; gap: var(--gap); margin-top: clamp(32px, 4vw, 56px); }
+  .work { padding: 10px; justify-content: flex-start; }
+  /* Each project's own interface, flat on a quiet panel. */
+  .work__img { position: relative; display: block; border-radius: 20px; overflow: hidden; aspect-ratio: 4 / 3; background: color-mix(in srgb, var(--fg) 5%, var(--bg)); }
+  .work__img :global(img) {
+    position: absolute;
+    inset: 10%;
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35));
+    transition: transform 1100ms var(--ease-arrive);
+  }
+  .work:hover .work__img :global(img) { transform: scale(1.03); }
+  .work__meta { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 14px 8px; }
+  .work__meta b { font-weight: 500; font-size: clamp(17px, 1.4vw, 20px); letter-spacing: -0.02em; }
+  .work__mock { margin-left: 10px; font-style: normal; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 7px; border-radius: 6px; border: 1px solid var(--line-strong); color: var(--muted); vertical-align: 2px; }
+  .work__meta span { font-size: 14px; color: var(--muted); text-align: right; }
+  @media (min-width: 900px) {
+    .works { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .works .is-wide { grid-column: 1 / -1; }
+    .works .is-wide .work__img { aspect-ratio: 21 / 9; }
+  }
+</style>

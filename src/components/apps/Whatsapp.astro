@@ -1,0 +1,115 @@
+---
+import { chat, ui } from "../../content";
+---
+
+<article class="app" id="whatsapp" data-app="whatsapp">
+  <div class="wrap">
+    <div class="intro intro--split">
+      <p class="t-label">{chat.eyebrow}</p>
+      <h2 class="t-headline">{chat.title}</h2>
+      <div class="prose">{chat.body.map((p) => <p>{p}</p>)}</div>
+    </div>
+
+    <div class="block">
+      <div class="wa theme-light" data-chat>
+        <div class="wa__phone frame">
+          <p class="wa__bar">
+            <span class="wa__avatar" aria-hidden="true">{chat.business[0]}</span>
+            <b>{chat.business}</b>
+            <span class="wa__status" data-status data-person={chat.status.person} data-assistant={chat.status.assistant}>{chat.status.assistant}</span>
+          </p>
+          <ol class="wa__thread" data-thread aria-live="polite">
+            {
+              chat.scripts.map((script) => (
+                <>
+                  <li class="wa__msg wa__msg--in">{script.customer}</li>
+                  <li class="wa__msg wa__msg--out">{script.reply}</li>
+                </>
+              ))
+            }
+          </ol>
+          <div class="wa__compose">
+            <p class="t-label">{chat.prompt}</p>
+            <div class="wa__chips">
+              {chat.scripts.map((script) => <button type="button" data-say={script.id}>{script.chip}</button>)}
+            </div>
+            <button type="button" class="wa__reset" data-reset hidden>{chat.reset}</button>
+          </div>
+        </div>
+
+        <div class="wa__side">
+          <div>
+            <h3 class="t-label">{chat.knowledgeTitle}</h3>
+            <ul class="wa__knowledge">
+              {
+                chat.knowledge.map((item) => (
+                  <li data-knowledge={item.id}>
+                    <b>{item.title}</b>
+                    <span>{item.text}</span>
+                    <span class="tag live wa__used">{chat.usedLabel}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div>
+            <h3 class="t-label">{chat.leadTitle}</h3>
+            <dl class="wa__lead" data-lead data-empty={chat.leadEmpty}>
+              <dt class="visually-hidden">{chat.leadTitle}</dt>
+              <dd>{chat.scripts[1].lead?.need}</dd>
+              <dd>{chat.scripts[1].lead?.date}</dd>
+              <dd><span class="tag">{chat.scripts[1].lead?.stage}</span></dd>
+              <dd class="t-small t-muted">{chat.scripts[1].lead?.followUp}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <p class="caption"><span class="tag">{ui.recreated}</span><span>{chat.caption}</span></p>
+    </div>
+  </div>
+</article>
+
+<script type="application/json" id="chat-data" set:html={JSON.stringify(chat.scripts)} />
+<script>
+  import "../../scripts/chat";
+</script>
+
+<style is:global>
+  .chat-section { padding-top: 0; }
+  .wa { display: grid; gap: 32px; }
+  .wa__phone { display: grid; grid-template-rows: auto 1fr auto; width: min(100%, 400px); min-height: 560px; border-radius: 32px; background: #efeeea; border: 1px solid var(--line-strong); box-shadow: 0 30px 60px -40px rgba(11, 11, 12, 0.35); }
+  .wa__bar { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--white); border-bottom: 1px solid var(--line); font-size: 15px; }
+  .wa__avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--white); display: grid; place-items: center; font-weight: 600; }
+  .wa__status { margin-left: auto; font-size: 12px; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--line-strong); white-space: nowrap; }
+  .wa__status.is-person { background: var(--ink); color: var(--white); }
+  .wa__thread { display: flex; flex-direction: column; gap: 8px; padding: 16px; overflow-y: auto; max-height: 420px; align-content: start; }
+  .wa__msg { max-width: 84%; padding: 9px 12px; border-radius: 14px; font-size: 15px; line-height: 1.4; }
+  .wa__msg--in { align-self: flex-start; background: var(--white); border-bottom-left-radius: 4px; }
+  .wa__msg--out { align-self: flex-end; background: var(--ink); color: var(--white); border-bottom-right-radius: 4px; }
+  .wa__msg--note { align-self: center; font-size: 12px; color: var(--grey-light); background: transparent; }
+  .wa__msg.is-new { animation: wa-in 320ms var(--ease-arrive) both; }
+  @keyframes wa-in { from { opacity: 0; transform: translateY(8px); } }
+  .wa__typing { align-self: flex-end; color: var(--grey-light); font-size: 13px; padding: 4px 8px; }
+  .wa__compose { display: grid; gap: 10px; padding: 14px 16px 18px; background: var(--white); border-top: 1px solid var(--line); }
+  .wa__chips { display: grid; gap: 8px; }
+  .wa__chips button, .wa__reset { min-height: 44px; padding: 8px 14px; text-align: left; border: 1px solid var(--line-strong); border-radius: 12px; background: transparent; font-size: 15px; cursor: pointer; transition: background-color var(--t-state) var(--ease-state); }
+  .wa__chips button:hover:not([disabled]) { background: rgba(11, 11, 12, 0.06); }
+  .wa__chips button[disabled] { opacity: 0.4; cursor: default; }
+  .wa__reset { justify-self: start; border-style: dashed; font-size: 14px; }
+
+  .wa__side { display: grid; gap: 32px; align-content: start; }
+  .wa__side h3 { margin-bottom: 12px; }
+  .wa__knowledge { display: grid; gap: 8px; }
+  .wa__knowledge li { display: grid; gap: 2px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); transition: border-color var(--t-state) var(--ease-state); }
+  .wa__knowledge span { font-size: 15px; color: var(--muted); }
+  .wa__used { display: none; justify-self: start; margin-top: 6px; color: var(--ink) !important; font-size: 11px !important; border-color: var(--ink); }
+  .wa__knowledge li.is-used { border-color: var(--ink); }
+  .wa__knowledge li.is-used .wa__used { display: inline-block; }
+  .wa__lead { display: grid; gap: 6px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); min-height: 132px; align-content: start; }
+  .wa__lead dd:first-of-type { font-weight: 600; }
+  .wa__lead.is-empty::before { content: attr(data-empty); color: var(--muted); }
+  .wa__lead.is-empty dd { display: none; }
+  @container os (min-width: 900px) {
+    .wa { grid-template-columns: 400px minmax(0, 1fr); gap: 64px; align-items: start; }
+  }
+</style>

@@ -1,0 +1,139 @@
+---
+import { aws } from "../../content";
+const part = (id: string) => aws.parts.find((p) => p.id === id)!;
+const services = ["iam", "dynamo", "s3", "watch"].map(part);
+---
+
+<article class="app" id="aws" data-app="aws">
+  <div class="wrap">
+    <div class="intro intro--split">
+      <p class="t-label">{aws.eyebrow}</p>
+      <h2 class="t-headline">{aws.title}</h2>
+      <div class="prose">{aws.body.map((p) => <p>{p}</p>)}</div>
+    </div>
+
+    <div class="block awsd" data-aws data-parts={JSON.stringify(aws.parts)} data-status={JSON.stringify(aws.status)} data-controls={JSON.stringify(aws.controls)}>
+      <div class="awsd__map">
+        <div class="awsd__edge">
+          <button type="button" class="awsd__part" data-part="users"><b>{part("users").name}</b><span>{part("users").kind}</span></button>
+          <span class="awsd__wire" aria-hidden="true"></span>
+          <button type="button" class="awsd__part" data-part="lb"><b>{part("lb").name}</b><span>{part("lb").kind}</span></button>
+        </div>
+        <div class="awsd__vpc">
+          <p class="t-label">{aws.vpc}</p>
+          <div class="awsd__zones">
+            {
+              ["a", "b"].map((z, i) => (
+                <div class="awsd__zone" data-zone={z}>
+                  <p class="t-label">{aws.zones[i]}<span class="awsd__health" data-health={z}></span></p>
+                  <button type="button" class="awsd__part awsd__part--web" data-part={`web-${z}`}><b>{part(`web-${z}`).name}</b><span>{part(`web-${z}`).kind}</span></button>
+                  <button type="button" class="awsd__part awsd__part--private" data-part={`mail-${z}`}><b>{part(`mail-${z}`).name}</b><span>{part(`mail-${z}`).kind}</span></button>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class="awsd__services">
+          {services.map((s) => <button type="button" class="awsd__part" data-part={s.id}><b>{s.name}</b><span>{s.kind}</span></button>)}
+        </div>
+      </div>
+      <div class="awsd__side">
+        <div class="awsd__detail" aria-live="polite">
+          <p class="t-label" data-detail-kind>{part("lb").kind}</p>
+          <h3 data-detail-name>{part("lb").name}</h3>
+          <p data-detail-text>{part("lb").text}</p>
+        </div>
+        <div class="awsd__controls">
+          <button type="button" class="btn btn--small btn--solid" data-act="request">{aws.controls.request}</button>
+          <button type="button" class="btn btn--small" data-act="fail">{aws.controls.fail}</button>
+        </div>
+        <p class="awsd__status t-mono" data-aws-status>{aws.status.idle}</p>
+      </div>
+    </div>
+
+    <div class="block awsx">
+      <form class="awsx__card" data-aws-form>
+        <h3>{aws.form.title}</h3>
+        <label><span class="t-label">{aws.form.name}</span><input name="name" required maxlength="40" placeholder={aws.form.namePlaceholder} /></label>
+        <label><span class="t-label">{aws.form.message}</span><textarea name="message" required maxlength="160" rows="3" placeholder={aws.form.messagePlaceholder}></textarea></label>
+        <button type="submit" class="btn btn--small btn--solid">{aws.form.send}</button>
+        <p class="t-label awsx__table-title">{aws.form.table}</p>
+        <ol class="awsx__rows" data-aws-rows><li class="awsx__empty">{aws.form.empty}</li></ol>
+      </form>
+      <div class="awsx__card">
+        <h3>{aws.storage.title}</h3>
+        <ul class="awsx__files">
+          {
+            aws.storage.files.map((f) => (
+              <li>
+                <span class="t-mono">{f.path}</span>
+                <button type="button" class="btn btn--small" data-open-file={f.allowed ? "1" : "0"} data-allowed={aws.storage.allowed} data-denied={aws.storage.denied}>{aws.storage.open}</button>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="t-label awsx__stack">{aws.stack}</p>
+      </div>
+    </div>
+    <p class="caption"><span class="tag">Simulation</span>{aws.caption}</p>
+  </div>
+</article>
+
+<style is:global>
+  .awsd { display: grid; gap: 16px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+  .awsd__map { display: grid; gap: 12px; min-width: 0; }
+  .awsd__edge { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; }
+  .awsd__wire { width: 28px; height: 0; border-top: 1px dashed var(--line-strong); }
+  .awsd__part { display: grid; gap: 2px; text-align: left; min-height: 56px; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--bg); color: var(--fg); cursor: pointer; transition: border-color 260ms var(--ease-state), background-color 260ms var(--ease-state), transform 260ms var(--ease-state), opacity 260ms var(--ease-state); }
+  .awsd__part b { font-weight: 600; font-size: 14px; }
+  .awsd__part span { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .awsd__part:hover { border-color: var(--fg); }
+  .awsd__part[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .awsd__part.is-hot { background: var(--accent); border-color: var(--accent); color: #0b0b0c; transform: translateY(-2px); }
+  .awsd__part.is-hot span { color: #0b0b0c; }
+  .awsd__vpc { padding: 12px; border: 1px dashed var(--line-strong); border-radius: 16px; display: grid; gap: 10px; }
+  .awsd__zones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .awsd__zone { display: grid; gap: 8px; align-content: start; padding: 10px; border-radius: 12px; background: color-mix(in srgb, var(--fg) 4%, transparent); transition: opacity 300ms var(--ease-state); }
+  .awsd__zone .t-label { display: flex; justify-content: space-between; gap: 8px; }
+  .awsd__health::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #3ecf8e; }
+  .awsd__zone.is-down { opacity: 0.45; }
+  .awsd__zone.is-down .awsd__health::before { background: #ef5b5b; }
+  .awsd__part--private { border-style: dashed; }
+  .awsd__services { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .awsd__side { display: grid; gap: 14px; align-content: start; }
+  .awsd__detail { display: grid; gap: 6px; min-height: 150px; padding: 16px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line); }
+  .awsd__detail h3 { font-weight: 600; font-size: 20px; letter-spacing: -0.01em; }
+  .awsd__detail p:last-child { color: var(--muted); line-height: 1.5; }
+  .awsd__controls { display: flex; flex-wrap: wrap; gap: 8px; }
+  .awsd__status { font-size: 12px; color: var(--muted); min-height: 1.5em; }
+  @container os (min-width: 900px) {
+    .awsd { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); padding: 24px; gap: 24px; }
+    .awsd__services { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  .awsx { display: grid; gap: 12px; }
+  .awsx__card { display: grid; gap: 12px; align-content: start; padding: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+  .awsx__card h3 { font-weight: 600; font-size: 20px; }
+  .awsx__card label { display: grid; gap: 6px; }
+  .awsx__card input, .awsx__card textarea { font: inherit; font-size: 15px; color: var(--fg); background: var(--bg); border: 1px solid var(--line-strong); border-radius: 10px; padding: 10px 12px; resize: vertical; }
+  .awsx__card button[type="submit"] { justify-self: start; }
+  .awsx__table-title { margin-top: 6px; }
+  .awsx__rows { display: grid; gap: 6px; max-height: 190px; overflow-y: auto; scrollbar-width: thin; }
+  .awsx__rows li { display: grid; gap: 2px; padding: 10px 12px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); font-size: 14px; animation: aws-row 700ms var(--ease-arrive); }
+  .awsx__rows li span { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .awsx__rows .awsx__empty { color: var(--muted); animation: none; }
+  @keyframes aws-row { from { background: var(--accent); color: #0b0b0c; } }
+  .awsx__files { display: grid; gap: 8px; }
+  .awsx__files li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 12px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); font-size: 13px; }
+  .awsx__files .t-mono { overflow-wrap: anywhere; }
+  .awsx__files button.is-ok { border-color: #3ecf8e; color: #3ecf8e; }
+  .awsx__files button.is-no { border-color: #ef5b5b; color: #ef5b5b; }
+  .awsx__stack { line-height: 1.6; }
+  @container os (min-width: 800px) {
+    .awsx { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>
+
+<script>
+  import "../../scripts/aws";
+</script>

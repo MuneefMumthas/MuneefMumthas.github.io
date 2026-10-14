@@ -1,0 +1,274 @@
+---
+import { unee, ui } from "../../content";
+
+const d = unee.decision;
+const pct = (p: number) => `${(p * 100).toFixed(1)}%`;
+const first = d.cases[0];
+const sure = (options: { p: number }[]) => Math.max(...options.map((o) => o.p)) >= d.threshold;
+---
+
+<article class="app" id="unee" data-app="unee">
+  <div class="wrap">
+    <div class="intro intro--split">
+      <p class="t-label">{unee.eyebrow}</p>
+      <h2 class="t-headline">{unee.title}</h2>
+      <div class="prose">{unee.body.map((p) => <p>{p}</p>)}</div>
+    </div>
+  </div>
+
+  <div class="ustatic">
+      <div class="uscene">
+        <div class="uscene__text">
+          <p class="t-label">{unee.story.two}</p>
+          <p class="uscene__say">{unee.calibration.title}</p>
+          <p class="t-small t-muted">{unee.calibration.source}</p>
+        </div>
+        <div class="ucal">
+          {
+            unee.calibration.models.map((m, i) => (
+              <div class="cal" style={`--k:${i}`}>
+                <p class="cal__head">
+                  <span class="cal__num">{m.sureRight}</span>
+                  <span class="t-small t-muted">{unee.calibration.sureRightLabel}, {m.name}</span>
+                </p>
+                <div class="cal__bar" role="img" aria-label={`${m.name}: ${unee.calibration.sureLabel} on ${m.share}% of decisions, ${unee.calibration.askLabel} on the rest.`}>
+                  <span class="cal__sure t-mono" style={`width:${m.share}%`}>{unee.calibration.sureLabel} · {m.share}%</span>
+                  <span class="cal__ask t-mono">{unee.calibration.askLabel}</span>
+                </div>
+                <p class="t-small t-muted">{m.overall} {unee.calibration.overallLabel}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="uscene">
+        <div class="uscene__text">
+          <p class="t-label">{unee.story.three}</p>
+          <p class="uscene__say">{unee.strict.title}</p>
+          <p>{unee.strict.body}</p>
+          <ul class="strict__results">
+            {
+              unee.strict.results.map((r) => (
+                <li>
+                  <span class="t-small t-muted">{r.name}</span>
+                  <span class="strict__nums">
+                    <span class="strict__before">{r.before}</span>
+                    <span aria-hidden="true">→</span>
+                    <span class="strict__after">{r.after}</span>
+                  </span>
+                  <span class="visually-hidden">{r.before} {unee.strict.without}, {r.after} {unee.strict.withStrict}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="t-small t-muted">{unee.strict.resultLabel}. {unee.strict.caveat}</p>
+        </div>
+        <div>
+          <div class="strict frame">
+            <p class="t-small t-muted">{unee.strict.question}</p>
+            <p class="strict__removed"><span>{unee.strict.removed}</span></p>
+            <p class="t-mono strict__why">{unee.strict.removedWhy}</p>
+            <p class="strict__kept">{unee.strict.kept}</p>
+            <p class="strict__kept">{unee.strict.note}</p>
+          </div>
+          <p class="caption"><span class="tag">{ui.recorded}</span><span>{unee.strict.source}</span></p>
+        </div>
+      </div>
+  </div>
+
+  <div class="wrap">
+    <div class="block">
+      <div class="frame decide" data-decide>
+        <div class="decide__ask">
+          <h3 class="t-title">{d.title}</h3>
+          <div class="decide__tabs" role="group" aria-label={d.pick}>
+            {
+              d.cases.map((c, i) => (
+                <button class="btn btn--small" type="button" data-case={i} aria-pressed={i === 0 ? "true" : "false"}>
+                  {c.tab}
+                </button>
+              ))
+            }
+          </div>
+          <dl class="decide__io">
+            <dt class="t-label">{d.inputLabel}</dt>
+            <dd data-input>{first.input}</dd>
+            <dt class="t-label">{d.questionLabel}</dt>
+            <dd data-question>{first.question}</dd>
+          </dl>
+        </div>
+        <div class="decide__answer" aria-live="polite" style={`--threshold:${d.threshold * 100}%`}>
+          <p class="decide__line t-label" aria-hidden="true"><span></span><span class="decide__mark"><b>{d.thresholdLabel}</b></span><span></span></p>
+          <ul class="decide__bars" data-bars>
+            {
+              first.options.map((o) => (
+                <li>
+                  <span class="t-mono decide__key">{o.key}</span>
+                  <span class="decide__track"><span class="decide__fill" style={`width:${o.p * 100}%`} /></span>
+                  <span class="t-mono decide__value">{pct(o.p)}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="decide__verdict">
+            <span class={`tag ${sure(first.options) ? "live" : ""}`} data-verdict>{sure(first.options) ? d.act : d.ask}</span>
+            <span class="t-small t-muted">{d.rule}</span>
+          </p>
+        </div>
+      </div>
+      <p class="caption"><span class="tag">{ui.recorded}</span><span>{d.recorded}</span></p>
+    </div>
+
+    <div class="block specs">
+      <div>
+        <h3 class="t-title">{unee.specs.title}</h3>
+        <div class="specs__scroll">
+          <table>
+            <thead>
+              <tr>{unee.specs.columns.map((c) => <th scope="col">{c}</th>)}</tr>
+            </thead>
+            <tbody>
+              {
+                unee.specs.rows.map((row) => (
+                  <tr>
+                    <th scope="row">{row[0]}</th>
+                    <td class="t-mono">{row[1]}</td>
+                    <td class="t-mono">{row[2]}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="t-small t-muted specs__note">{unee.specs.harness} {unee.honest}</p>
+      </div>
+      <div class="specs__side">
+        <div>
+          <h3 class="t-title">{unee.training.title}</h3>
+          <p>{unee.training.body}</p>
+        </div>
+        <div>
+          <h3 class="t-title">{unee.run.title}</h3>
+          <p>{unee.run.body}</p>
+          <ul class="cmds">
+            {
+              unee.run.commands.map((cmd) => (
+                <li>
+                  <code class="t-mono">{cmd}</code>
+                  <button class="btn btn--small" type="button" data-copy={cmd} data-copied={unee.run.copied} hidden>
+                    {unee.run.copy}
+                  </button>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <ul class="links">
+          {unee.links.map((l) => <li><a class="link" href={l.href} rel="noopener">{l.label}</a></li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</article>
+
+<script type="application/json" id="unee-data" set:html={JSON.stringify({ cases: d.cases, threshold: d.threshold, act: d.act, ask: d.ask })} />
+<script>
+  import "../../scripts/unee";
+</script>
+
+<style is:global>
+  /* ---- The pinned story. Everything below reads --t, the scene's own progress. ---- */
+  .ustatic { display: grid; gap: clamp(40px, 6cqw, 72px); margin-top: clamp(28px, 4cqw, 52px); }
+  .uscene { --t: 1; }
+  .uscene { display: grid; gap: 32px; align-items: center; }
+  .uscene__text { display: grid; gap: 18px; align-content: center; }
+  .uscene__say { font-weight: 600; font-stretch: 92%; font-size: clamp(30px, 3.6cqw, 52px); line-height: 1.06; letter-spacing: -0.02em; text-wrap: balance; }
+  @container os (min-width: 900px) {
+    .uscene { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 72px; }
+  }
+
+  .ud { display: grid; gap: 10px; padding: 28px; }
+  .ud__input { font-size: clamp(19px, 1.7cqw, 23px); line-height: 1.35; margin-bottom: 10px; }
+  .ud__a { opacity: clamp(0, calc(var(--t) / 0.1), 1); }
+  .ud__b { opacity: clamp(0, calc((var(--t) - 0.12) / 0.1), 1); }
+  .ud__bars { display: grid; gap: 14px; margin-top: 8px; opacity: clamp(0, calc((var(--t) - 0.24) / 0.06), 1); }
+  .ud__bars li { display: grid; grid-template-columns: 9ch minmax(0, 1fr) 7ch; gap: 12px; align-items: center; font-size: 14px; }
+  .ud__track { position: relative; height: 30px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .ud__track::after { content: ""; position: absolute; top: 0; bottom: 0; left: var(--threshold); border-left: 1px dashed var(--line-strong); opacity: clamp(0, calc((var(--t) - 0.5) / 0.1), 1); }
+  /* Each bar starts at an equal share and grows or shrinks to the probability the model returned. */
+  .ud__fill { display: block; height: 100%; background: var(--accent); transform-origin: 0 50%; --g: clamp(0, calc((var(--t) - 0.3) / 0.36), 1); transform: scaleX(calc(var(--f) + (var(--to) - var(--f)) * var(--g))); }
+  .ud__value { text-align: right; opacity: clamp(0, calc((var(--t) - 0.62) / 0.08), 1); }
+  .ud__verdict { min-height: 40px; margin-top: 6px; opacity: clamp(0, calc((var(--t) - 0.74) / 0.06), 1); transform: scale(calc(1.25 - 0.25 * clamp(0, calc((var(--t) - 0.74) / 0.1), 1))); transform-origin: 0 50%; }
+  .ud__verdict .tag { font-size: 14px; padding: 7px 12px; }
+  @container os (min-width: 900px) {
+    .ud { padding: 44px; }
+  }
+
+  .ucal { display: grid; gap: 40px; }
+  .cal { display: grid; gap: 10px; --g: clamp(0, calc((var(--t) - 0.12 - var(--k, 0) * 0.3) / 0.34), 1); opacity: var(--g); }
+  .cal__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+  .cal__num { font-weight: 600; font-stretch: 88%; font-size: clamp(56px, 7.4cqw, 108px); line-height: 1; letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
+  .cal__bar { display: flex; height: 48px; border: 1px solid var(--line-strong); border-radius: 6px; overflow: hidden; font-size: 12px; }
+  .cal__bar span { display: flex; align-items: center; padding: 0 10px; white-space: nowrap; overflow: hidden; }
+  .cal__sure { background: var(--accent); color: var(--ink); flex: none; clip-path: inset(0 calc((1 - var(--g)) * 100%) 0 0); }
+  .cal__ask { color: var(--muted); flex: 1; }
+
+  .strict { display: grid; gap: 12px; padding: 28px; --g: clamp(0, calc((var(--t) - 0.18) / 0.36), 1); }
+  .strict__removed { color: var(--muted); }
+  /* The strike is drawn across the sentence as the check reaches it. */
+  .strict__removed span { background: linear-gradient(currentColor, currentColor) 0 58% / calc(var(--g) * 100%) 1.5px no-repeat; }
+  .strict__why { font-size: 13px; color: var(--accent); opacity: clamp(0, calc((var(--t) - 0.54) / 0.08), 1); }
+  .strict__kept { padding-left: 14px; border-left: 2px solid var(--fg); opacity: clamp(0, calc((var(--t) - 0.62) / 0.1), 1); }
+  .strict__results { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .strict__results li { display: grid; gap: 4px; }
+  .strict__nums { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-weight: 600; font-stretch: 88%; font-size: clamp(26px, 2.8cqw, 40px); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .strict__before { color: var(--muted); }
+  .strict__after, .strict__nums [aria-hidden] { opacity: clamp(0, calc((var(--t) - 0.72) / 0.1), 1); }
+  @container os (min-width: 900px) {
+    .strict { padding: 40px; }
+  }
+
+  /* ---- The card the visitor operates. ---- */
+  .decide { display: grid; }
+  .decide__ask, .decide__answer { padding: 28px; display: grid; gap: 20px; align-content: start; min-width: 0; }
+  .decide__answer { border-top: 1px solid var(--line); position: relative; }
+  .decide__tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .decide__tabs [aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+  .decide__io { display: grid; gap: 6px; }
+  .decide__io dd { font-size: clamp(19px, 1.7cqw, 22px); line-height: 1.36; margin-bottom: 12px; min-height: 2.72em; }
+  .decide__bars { display: grid; gap: 14px; }
+  .decide__bars li { display: grid; grid-template-columns: 9ch minmax(0, 1fr) 7ch; gap: 12px; align-items: center; font-size: 14px; }
+  .decide__value { text-align: right; }
+  .decide__track { position: relative; height: 28px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .decide__track::after { content: ""; position: absolute; top: 0; bottom: 0; left: var(--threshold); border-left: 1px dashed var(--line-strong); }
+  .decide__fill { display: block; height: 100%; background: var(--accent); transition: width 900ms var(--ease-arrive); }
+  .decide__line { display: grid; grid-template-columns: 9ch minmax(0, 1fr) 7ch; gap: 12px; margin-bottom: -12px; }
+  .decide__mark { position: relative; height: 16px; }
+  .decide__mark b { position: absolute; left: var(--threshold); transform: translateX(-50%); font-weight: 400; }
+  .decide__verdict { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; min-height: 44px; }
+  .decide__verdict .tag { font-size: 13px; padding: 6px 10px; transition: opacity var(--t-state) var(--ease-state); }
+  .decide__verdict .tag.is-pending { opacity: 0; }
+  @container os (min-width: 1000px) {
+    .decide { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+    .decide__ask, .decide__answer { padding: 40px; }
+    .decide__answer { border-top: 0; border-left: 1px solid var(--line); align-content: center; }
+  }
+
+  .specs { display: grid; gap: 56px; }
+  .specs h3 { margin-bottom: 16px; }
+  .specs__scroll { overflow-x: auto; }
+  .specs table { width: 100%; font-size: 15px; line-height: 1.4; }
+  .specs th, .specs td { text-align: left; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .specs thead th { font-weight: 600; }
+  .specs tbody th { font-weight: 400; color: var(--muted); min-width: 11ch; }
+  .specs td { font-size: 14px; }
+  .specs__note { margin-top: 16px; max-width: 60ch; }
+  .specs__side { display: grid; gap: 40px; align-content: start; }
+  .cmds { display: grid; gap: 8px; margin-top: 16px; }
+  .cmds li { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; padding: 4px 4px 4px 16px; border: 1px solid var(--line); border-radius: 10px; }
+  .cmds code { font-size: 14px; overflow-wrap: anywhere; }
+  @container os (min-width: 1000px) {
+    .specs { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 64px; }
+  }
+</style>

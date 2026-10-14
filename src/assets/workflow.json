@@ -1,0 +1,339 @@
+{
+ "workflow": "Lead Engine - Continuous Scrape Filter Enrich Checkpoint Export",
+ "nodes": [
+  {
+   "name": "Scrape Form",
+   "kind": "trigger",
+   "x": 40,
+   "y": 280
+  },
+  {
+   "name": "Build Tasks",
+   "kind": "code",
+   "x": 264,
+   "y": 280
+  },
+  {
+   "name": "Loop Over Tasks",
+   "kind": "loop",
+   "x": 487,
+   "y": 280
+  },
+  {
+   "name": "Start Scraper Job",
+   "kind": "code",
+   "x": 694,
+   "y": 408
+  },
+  {
+   "name": "Job Started?",
+   "kind": "branch",
+   "x": 891,
+   "y": 408
+  },
+  {
+   "name": "Wait Before Status Check",
+   "kind": "wait",
+   "x": 1081,
+   "y": 312
+  },
+  {
+   "name": "Check Scraper Status",
+   "kind": "code",
+   "x": 1270,
+   "y": 312
+  },
+  {
+   "name": "Task Complete?",
+   "kind": "branch",
+   "x": 1459,
+   "y": 312
+  },
+  {
+   "name": "Task Failed?",
+   "kind": "branch",
+   "x": 1648,
+   "y": 472
+  },
+  {
+   "name": "Download Task CSV",
+   "kind": "http",
+   "x": 1648,
+   "y": 168
+  },
+  {
+   "name": "Validate CSV Download",
+   "kind": "code",
+   "x": 1837,
+   "y": 168
+  },
+  {
+   "name": "CSV Downloaded?",
+   "kind": "branch",
+   "x": 2027,
+   "y": 168
+  },
+  {
+   "name": "Extract Task CSV",
+   "kind": "file",
+   "x": 2216,
+   "y": 88
+  },
+  {
+   "name": "Normalize and Preliminary Filter",
+   "kind": "code",
+   "x": 2405,
+   "y": 88
+  },
+  {
+   "name": "Enrich and Score Leads",
+   "kind": "code",
+   "x": 2594,
+   "y": 88
+  },
+  {
+   "name": "Prepare Checkpoint Rows",
+   "kind": "code",
+   "x": 2783,
+   "y": 88
+  },
+  {
+   "name": "Build Checkpoint Excel",
+   "kind": "file",
+   "x": 2973,
+   "y": 88
+  },
+  {
+   "name": "Write Checkpoint Excel",
+   "kind": "file",
+   "x": 3162,
+   "y": 88
+  },
+  {
+   "name": "Restore Leads After Checkpoint",
+   "kind": "code",
+   "x": 3351,
+   "y": 88
+  },
+  {
+   "name": "Record Failed Task",
+   "kind": "code",
+   "x": 2216,
+   "y": 416
+  },
+  {
+   "name": "Build Failure Checkpoint Excel",
+   "kind": "file",
+   "x": 2405,
+   "y": 416
+  },
+  {
+   "name": "Write Failure Checkpoint",
+   "kind": "file",
+   "x": 2594,
+   "y": 416
+  },
+  {
+   "name": "Restore Failure Marker",
+   "kind": "code",
+   "x": 2783,
+   "y": 416
+  },
+  {
+   "name": "Task Cooldown",
+   "kind": "wait",
+   "x": 3540,
+   "y": 248
+  },
+  {
+   "name": "Global Deduplicate and Select Targets",
+   "kind": "code",
+   "x": 694,
+   "y": 40
+  },
+  {
+   "name": "Finalize Master Columns",
+   "kind": "code",
+   "x": 909,
+   "y": 40
+  },
+  {
+   "name": "Build Final Excel",
+   "kind": "file",
+   "x": 1124,
+   "y": 40
+  },
+  {
+   "name": "Write Final Excel",
+   "kind": "file",
+   "x": 1339,
+   "y": 40
+  }
+ ],
+ "edges": [
+  {
+   "from": "Scrape Form",
+   "to": "Build Tasks",
+   "output": 0
+  },
+  {
+   "from": "Build Tasks",
+   "to": "Loop Over Tasks",
+   "output": 0
+  },
+  {
+   "from": "Loop Over Tasks",
+   "to": "Global Deduplicate and Select Targets",
+   "output": 0
+  },
+  {
+   "from": "Loop Over Tasks",
+   "to": "Start Scraper Job",
+   "output": 1
+  },
+  {
+   "from": "Start Scraper Job",
+   "to": "Job Started?",
+   "output": 0
+  },
+  {
+   "from": "Job Started?",
+   "to": "Wait Before Status Check",
+   "output": 0
+  },
+  {
+   "from": "Job Started?",
+   "to": "Record Failed Task",
+   "output": 1
+  },
+  {
+   "from": "Wait Before Status Check",
+   "to": "Check Scraper Status",
+   "output": 0
+  },
+  {
+   "from": "Check Scraper Status",
+   "to": "Task Complete?",
+   "output": 0
+  },
+  {
+   "from": "Task Complete?",
+   "to": "Download Task CSV",
+   "output": 0
+  },
+  {
+   "from": "Task Complete?",
+   "to": "Task Failed?",
+   "output": 1
+  },
+  {
+   "from": "Task Failed?",
+   "to": "Record Failed Task",
+   "output": 0
+  },
+  {
+   "from": "Task Failed?",
+   "to": "Wait Before Status Check",
+   "output": 1
+  },
+  {
+   "from": "Download Task CSV",
+   "to": "Validate CSV Download",
+   "output": 0
+  },
+  {
+   "from": "Validate CSV Download",
+   "to": "CSV Downloaded?",
+   "output": 0
+  },
+  {
+   "from": "CSV Downloaded?",
+   "to": "Extract Task CSV",
+   "output": 0
+  },
+  {
+   "from": "CSV Downloaded?",
+   "to": "Record Failed Task",
+   "output": 1
+  },
+  {
+   "from": "Extract Task CSV",
+   "to": "Normalize and Preliminary Filter",
+   "output": 0
+  },
+  {
+   "from": "Normalize and Preliminary Filter",
+   "to": "Enrich and Score Leads",
+   "output": 0
+  },
+  {
+   "from": "Enrich and Score Leads",
+   "to": "Prepare Checkpoint Rows",
+   "output": 0
+  },
+  {
+   "from": "Prepare Checkpoint Rows",
+   "to": "Build Checkpoint Excel",
+   "output": 0
+  },
+  {
+   "from": "Build Checkpoint Excel",
+   "to": "Write Checkpoint Excel",
+   "output": 0
+  },
+  {
+   "from": "Write Checkpoint Excel",
+   "to": "Restore Leads After Checkpoint",
+   "output": 0
+  },
+  {
+   "from": "Restore Leads After Checkpoint",
+   "to": "Task Cooldown",
+   "output": 0
+  },
+  {
+   "from": "Record Failed Task",
+   "to": "Build Failure Checkpoint Excel",
+   "output": 0
+  },
+  {
+   "from": "Build Failure Checkpoint Excel",
+   "to": "Write Failure Checkpoint",
+   "output": 0
+  },
+  {
+   "from": "Write Failure Checkpoint",
+   "to": "Restore Failure Marker",
+   "output": 0
+  },
+  {
+   "from": "Restore Failure Marker",
+   "to": "Task Cooldown",
+   "output": 0
+  },
+  {
+   "from": "Task Cooldown",
+   "to": "Loop Over Tasks",
+   "output": 0
+  },
+  {
+   "from": "Global Deduplicate and Select Targets",
+   "to": "Finalize Master Columns",
+   "output": 0
+  },
+  {
+   "from": "Finalize Master Columns",
+   "to": "Build Final Excel",
+   "output": 0
+  },
+  {
+   "from": "Build Final Excel",
+   "to": "Write Final Excel",
+   "output": 0
+  }
+ ],
+ "width": 3730,
+ "height": 556,
+ "nodeWidth": 150,
+ "nodeHeight": 44
+}

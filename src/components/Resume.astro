@@ -1,0 +1,68 @@
+---
+// The CV in a window: a preview of the first page, and the choice to view it or download it.
+import { Image } from "astro:assets";
+import { resume } from "../content";
+import preview from "../assets/cv-preview.png";
+---
+
+<dialog class="cv" data-resume aria-labelledby="cv-title">
+  <div class="cv__sheet">
+    <div class="cv__head">
+      <h2 id="cv-title">{resume.title}</h2>
+      <button type="button" class="cv__close" data-resume-close aria-label={resume.close}>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" /></svg>
+      </button>
+    </div>
+    <a class="cv__preview" href={resume.file} target="_blank" rel="noopener">
+      <Image src={preview} alt="" widths={[360, 560]} sizes="(min-width: 600px) 420px, 80vw" loading="lazy" />
+    </a>
+    <p class="cv__note">{resume.note}</p>
+    <div class="cv__actions">
+      <a class="btn btn--solid" href={resume.file} target="_blank" rel="noopener">{resume.view}</a>
+      <a class="btn" href={resume.file} download="Muneef_Mumthas_CV.pdf">{resume.download}</a>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .cv { padding: 0; border: 0; background: transparent; color: var(--fg); max-width: min(480px, calc(100vw - 32px)); max-height: calc(100svh - 32px); width: 100%; overflow: visible; }
+  .cv::backdrop { background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(10px); }
+  .cv__sheet { display: grid; gap: 16px; padding: 20px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--glass-edge); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6); max-height: calc(100svh - 32px); overflow-y: auto; }
+  .cv[open] .cv__sheet { animation: cv-in 520ms var(--ease-arrive); }
+  @keyframes cv-in {
+    from { opacity: 0; transform: translateY(28px) scale(0.97); }
+  }
+  .cv__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .cv__head h2 { font-weight: 500; font-size: 28px; letter-spacing: -0.03em; }
+  .cv__close { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--glass-hover); color: var(--fg); cursor: pointer; }
+  .cv__close svg { width: 16px; height: 16px; }
+  .cv__preview { display: block; border-radius: 14px; overflow: hidden; background: #fff; max-height: 52svh; }
+  .cv__preview :global(img) { width: 100%; height: auto; transition: transform 900ms var(--ease-arrive); }
+  .cv__preview:hover :global(img) { transform: scale(1.02); }
+  .cv__note { font-size: 14px; color: var(--muted); }
+  .cv__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cv__actions .btn { justify-content: center; }
+</style>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>("[data-resume]");
+  if (dialog) {
+    // The open window sits above everything else, so the plus cursor moves inside it while it is open.
+    document.querySelectorAll("[data-resume-open]").forEach((b) =>
+      b.addEventListener("click", () => {
+        dialog.showModal();
+        const cursor = document.querySelector(".cursor");
+        if (cursor) dialog.append(cursor);
+      }),
+    );
+    dialog.addEventListener("close", () => {
+      const cursor = dialog.querySelector(".cursor");
+      if (cursor) document.body.append(cursor);
+    });
+    dialog.querySelector("[data-resume-close]")!.addEventListener("click", () => dialog.close());
+    // A click on the dimmed area outside the sheet closes it.
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+  }
+</script>

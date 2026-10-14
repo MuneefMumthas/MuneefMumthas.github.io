@@ -1,0 +1,51 @@
+---
+import Base from "../../layouts/Base.astro";
+import Arrow from "../../components/Arrow.astro";
+import { work } from "../../content";
+import Unee from "../../components/apps/Unee.astro";
+import Suite from "../../components/apps/Suite.astro";
+import Whatsapp from "../../components/apps/Whatsapp.astro";
+import N8n from "../../components/apps/N8n.astro";
+import Uneeflow from "../../components/apps/Uneeflow.astro";
+import Survey from "../../components/apps/Survey.astro";
+import Aws from "../../components/apps/Aws.astro";
+import Loan from "../../components/apps/Loan.astro";
+
+export function getStaticPaths() {
+  return work.items.map((item, i) => ({ params: { slug: item.slug }, props: { item, next: work.items[(i + 1) % work.items.length] } }));
+}
+const { item, next } = Astro.props;
+const apps = { unee: Unee, "operations-suite": Suite, "lead-generation": N8n, "whatsapp-crm": Whatsapp, uneeflow: Uneeflow, "survey-plan-analysis": Survey, "aws-secure-web": Aws, "loan-approval": Loan } as const;
+const App = apps[item.slug as keyof typeof apps];
+---
+
+<Base title={`${item.name} · Muneef Mumthas`} back={{ href: "/work/", label: work.back }}>
+  <main class="page project">
+    {
+      item.mock && (
+        <p class="mock" role="note">
+          <span class="mock__tag">{work.mockTag}</span>
+          {work.mockNotice}
+        </p>
+      )
+    }
+    <div class="project__body">
+      <App />
+    </div>
+    <a class="card next rise" href={`/work/${next.slug}/`}>
+      <span class="card__label">
+        <span><small>{work.next}</small><b>{next.name}</b></span>
+        <Arrow />
+      </span>
+    </a>
+  </main>
+</Base>
+
+<style>
+  .project__body { container: os / inline-size; }
+  .mock { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: clamp(24px, 3vw, 40px); padding: 14px 18px; border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent); border-radius: 16px; background: color-mix(in srgb, var(--accent) 10%, transparent); font-size: 15px; line-height: 1.45; }
+  .mock__tag { flex: none; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; background: var(--accent); color: #0b0b0c; }
+  .next { margin-top: var(--section); min-height: clamp(160px, 18vw, 240px); }
+  .next small { display: block; font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  .next b { font-weight: 500; font-size: clamp(30px, 4vw, 60px); letter-spacing: -0.04em; }
+</style>

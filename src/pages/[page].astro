@@ -1,0 +1,18 @@
+---
+// Pages that exist only when switched on in content.ts. Today that is the assistant.
+import Base from "../layouts/Base.astro";
+import Assistant from "../components/apps/Assistant.astro";
+import { assistant, site } from "../content";
+
+export function getStaticPaths() {
+  return assistant.endpoint ? [{ params: { page: "assistant" } }] : [];
+}
+---
+
+<Base title="Assistant · Muneef Mumthas" back={{ href: "/", label: site.home }}>
+  <main class="page"><div class="project__body"><Assistant /></div></main>
+</Base>
+
+<style>
+  .project__body { container: os / inline-size; }
+</style>
