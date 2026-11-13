@@ -53,8 +53,10 @@ export const work = {
   next: "Next project",
   // Projects shown through a recreation say so plainly, on their card and at the top of their page.
   mockTag: "Mock-up",
+  liveTag: "Live",
   mockNotice: "This is a mock-up with sample data, made to show how it works. It is not the live product.",
   items: [
+    { slug: "form", name: "FORM", category: "Gym platform", image: "form", wide: true, live: true },
     { slug: "unee", name: "Unee", category: "Open language models", image: "unee", wide: false },
     { slug: "operations-suite", name: "Operations suite", category: "Full-stack platform", image: "suite", wide: false, mock: true },
     { slug: "lead-generation", name: "Lead generation automation", category: "n8n workflows", image: "n8n", wide: true, mock: true },
@@ -403,6 +405,58 @@ export const research = {
   outside: "Nothing leaves",
   pipeline: ["Survey plan", "PDF processing", "OCR", "Computer vision", "Local LLM inference", "Checked against regulations"],
   diagramAlt: "A pipeline of six steps, from survey plan to a check against regulations, drawn inside one boundary labelled local machines only.",
+};
+
+
+// FORM: the gym platform Muneef builds under UNEEVERSE, shown on a made-up gym at form.uneeverse.net.
+// Facts from the project's PROJECT-CONTEXT.md and docs/DEMO.md. Screens are real captures of the live demo (demo data).
+export const form = {
+  eyebrow: "FORM · Gym platform · Live",
+  title: "A gym's website and app, in its own colours.",
+  body: [
+    "FORM is a made-up gym that shows the gym platform I build: a website, and one app for members, coaches, the front desk, managers and the owner. Every role sees only its own data.",
+    "It is made to be sold in the room. Customise repaints the website in the prospect's colour and name as you type, and Branding saves it for every member's app. Behind that: a live count from the door scanner, class booking with waitlists, programs and set logging, payments, leads, automations and analytics.",
+  ],
+  links: [
+    { label: "Open the live demo", href: "https://form.uneeverse.net" },
+    { label: "Open the app", href: "https://form.uneeverse.net/app/" },
+  ],
+  facts: [
+    { value: "5", label: "roles, one sign-in" },
+    { value: "4", label: "portals: website, management, coach, member" },
+    { value: "9", label: "colour presets, or any colour" },
+    { value: "~3 s", label: "from a door scan to every screen" },
+  ],
+  heroAlt: "FORM's owner overview in a browser, and the member app on a phone",
+  tourTitle: "Walk through it",
+  tourNote: "Real screens from the live demo, with its demo data. Hover a number, or let it play.",
+  chapters: [
+    { id: "site", name: "Website" },
+    { id: "owner", name: "Owner" },
+    { id: "coach", name: "Coach" },
+    { id: "member", name: "Member" },
+  ],
+  steps: [
+    { id: "site-hero", chapter: "site", title: "The website", url: "form.uneeverse.net" },
+    { id: "site-live", chapter: "site", title: "Live crowd, on the website", url: "form.uneeverse.net" },
+    { id: "signin", chapter: "site", title: "One sign-in", url: "form.uneeverse.net/app" },
+    { id: "owner-overview", chapter: "owner", title: "Overview", url: "form.uneeverse.net/app/overview" },
+    { id: "owner-live", chapter: "owner", title: "Live Gym", url: "form.uneeverse.net/app/live" },
+    { id: "owner-pulse", chapter: "owner", title: "Pulse", url: "form.uneeverse.net/app/pulse" },
+    { id: "owner-members", chapter: "owner", title: "Members", url: "form.uneeverse.net/app/members" },
+    { id: "owner-analytics", chapter: "owner", title: "Analytics", url: "form.uneeverse.net/app/analytics" },
+    { id: "owner-automations", chapter: "owner", title: "Automations", url: "form.uneeverse.net/app/automations" },
+    { id: "owner-branding", chapter: "owner", title: "Branding", url: "form.uneeverse.net/app/settings" },
+    { id: "coach-today", chapter: "coach", title: "Today", url: "form.uneeverse.net/app/today" },
+    { id: "coach-programs", chapter: "coach", title: "Program studio", url: "form.uneeverse.net/app/programs" },
+    { id: "member-home", chapter: "member", title: "Home", phone: true },
+    { id: "member-train", chapter: "member", title: "Train", phone: true },
+    { id: "member-schedule", chapter: "member", title: "Schedule", phone: true },
+    { id: "member-club", chapter: "member", title: "The club", phone: true },
+  ],
+  controls: { prev: "Previous screen", next: "Next screen", play: "Play", pause: "Pause" },
+  note: "FORM is a made-up gym. The people, payments and visits are demo data.",
+  stack: "React 19, TypeScript, Vite, TanStack Query, PHP 8.3, SQLite, installable web app",
 };
 
 // AWS Secure Web System. Facts from the coursework report (CO654 CW1), which framed it for a fictional bank.

@@ -10,12 +10,13 @@ import Uneeflow from "../../components/apps/Uneeflow.astro";
 import Survey from "../../components/apps/Survey.astro";
 import Aws from "../../components/apps/Aws.astro";
 import Loan from "../../components/apps/Loan.astro";
+import Form from "../../components/apps/Form.astro";
 
 export function getStaticPaths() {
   return work.items.map((item, i) => ({ params: { slug: item.slug }, props: { item, next: work.items[(i + 1) % work.items.length] } }));
 }
 const { item, next } = Astro.props;
-const apps = { unee: Unee, "operations-suite": Suite, "lead-generation": N8n, "whatsapp-crm": Whatsapp, uneeflow: Uneeflow, "survey-plan-analysis": Survey, "aws-secure-web": Aws, "loan-approval": Loan } as const;
+const apps = { form: Form, unee: Unee, "operations-suite": Suite, "lead-generation": N8n, "whatsapp-crm": Whatsapp, uneeflow: Uneeflow, "survey-plan-analysis": Survey, "aws-secure-web": Aws, "loan-approval": Loan } as const;
 const App = apps[item.slug as keyof typeof apps];
 ---
 

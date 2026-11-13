@@ -1,0 +1,277 @@
+{
+  "site-hero": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Customise repaints the whole site in the gym's colour and name, as you type.",
+        "x": 76.26,
+        "y": 3.56
+      },
+      {
+        "label": "The live count from the door scanner, on the home page.",
+        "x": 21.62,
+        "y": 87.76
+      },
+      {
+        "label": "One sign-in takes members, coaches and staff into the app.",
+        "x": 88.6,
+        "y": 3.56
+      }
+    ]
+  },
+  "site-live": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Members check how busy it is before they leave home.",
+        "x": 24.17,
+        "y": 63.33
+      },
+      {
+        "label": "Counts come from the existing face or card scanner.",
+        "x": 69.58,
+        "y": 83.38
+      }
+    ]
+  },
+  "signin": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Five roles, one sign-in. Each sees only its own data.",
+        "x": 65.68,
+        "y": 51.09
+      },
+      {
+        "label": "Even the sign-in screen shows who is training now.",
+        "x": 10.12,
+        "y": 91.76
+      }
+    ]
+  },
+  "owner-overview": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Money collected, compared with last month.",
+        "x": 33.89,
+        "y": 18.86
+      },
+      {
+        "label": "Pulse gathers everything waiting on the owner.",
+        "x": 82.16,
+        "y": 49.27
+      },
+      {
+        "label": "Money or visits over the last 30 days.",
+        "x": 29.16,
+        "y": 50.54
+      },
+      {
+        "label": "Live count against capacity, with how busy that is.",
+        "x": 87.77,
+        "y": 64.6
+      }
+    ]
+  },
+  "owner-live": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Who is in now, out of the floor's capacity.",
+        "x": 48.13,
+        "y": 30.39
+      },
+      {
+        "label": "Busier than usual or a good time, said in plain words.",
+        "x": 79.91,
+        "y": 23.77
+      },
+      {
+        "label": "Today against a normal day, hour by hour.",
+        "x": 42.73,
+        "y": 59.8
+      }
+    ]
+  },
+  "owner-pulse": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Member requests, ready to approve with a reply.",
+        "x": 31.39,
+        "y": 19.01
+      },
+      {
+        "label": "Leads, equipment reports and community posts in one place.",
+        "x": 81.26,
+        "y": 24.45
+      },
+      {
+        "label": "Who renews this week, before they lapse.",
+        "x": 31.36,
+        "y": 56.86
+      }
+    ]
+  },
+  "owner-members": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Find anyone by name, member code, phone or email.",
+        "x": 59.44,
+        "y": 18.3
+      },
+      {
+        "label": "Filter by status; freeze several members at once.",
+        "x": 39.07,
+        "y": 24.74
+      },
+      {
+        "label": "How well each member keeps to their plan.",
+        "x": 76.69,
+        "y": 38.21
+      }
+    ]
+  },
+  "owner-analytics": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Every chart carries one plain sentence saying what it means.",
+        "x": 40.38,
+        "y": 19.45
+      },
+      {
+        "label": "How many monthly members paid again.",
+        "x": 78.75,
+        "y": 62.25
+      }
+    ]
+  },
+  "owner-automations": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Rules in plain words: renewals, missed visits, milestones.",
+        "x": 42.27,
+        "y": 22.25
+      },
+      {
+        "label": "Run a rule now to see who it would nudge.",
+        "x": 65.93,
+        "y": 34.26
+      }
+    ]
+  },
+  "owner-branding": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Pick the gym's colour; text stays readable on it.",
+        "x": 78.75,
+        "y": 28.37
+      },
+      {
+        "label": "Save once and every member's app repaints.",
+        "x": 67.79,
+        "y": 69.36
+      }
+    ]
+  },
+  "coach-today": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Today's sessions, marked done in one tap.",
+        "x": 41.43,
+        "y": 32.71
+      },
+      {
+        "label": "Check-ins to review and reports of discomfort.",
+        "x": 80.04,
+        "y": 32.71
+      },
+      {
+        "label": "How the coach's clients are keeping up.",
+        "x": 84.07,
+        "y": 18.86
+      }
+    ]
+  },
+  "coach-programs": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Build a program once, as a template.",
+        "x": 40.14,
+        "y": 16.89
+      },
+      {
+        "label": "Then give it to each client and adjust.",
+        "x": 78.75,
+        "y": 16.89
+      }
+    ]
+  },
+  "member-home": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Invites, replies and reminders, in one line.",
+        "x": 46.85,
+        "y": 18.37
+      },
+      {
+        "label": "Rings for training, visits and water.",
+        "x": 38.64,
+        "y": 53.81
+      }
+    ]
+  },
+  "member-train": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "The coach's program, day by day.",
+        "x": 45.9,
+        "y": 33.93
+      },
+      {
+        "label": "Log sets as you go; records are flagged.",
+        "x": 18.01,
+        "y": 74.85
+      }
+    ]
+  },
+  "member-schedule": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "Book a class and see how full it is.",
+        "x": 21.64,
+        "y": 51.62
+      },
+      {
+        "label": "Full? Join the waitlist instead.",
+        "x": 78.82,
+        "y": 71.84
+      }
+    ]
+  },
+  "member-club": {
+    "leftoverPlaces": "",
+    "cards": [
+      {
+        "label": "The member card, shown at the desk.",
+        "x": 50,
+        "y": 51.28
+      },
+      {
+        "label": "Freezes, guest passes and questions, with the team's answers.",
+        "x": 41.39,
+        "y": 70.47
+      }
+    ]
+  }
+}

@@ -25,7 +25,7 @@ const image = (name: string) => shots[`../../assets/shots/${name}.png`].default;
                 />
               </span>
               <span class="work__meta">
-                <b>{item.name}{item.mock && <em class="work__mock">{work.mockTag}</em>}</b>
+                <b>{item.name}{item.live && <em class="work__live">{work.liveTag}</em>}{item.mock && <em class="work__mock">{work.mockTag}</em>}</b>
                 <span>{item.category}</span>
               </span>
             </a>
@@ -54,6 +54,8 @@ const image = (name: string) => shots[`../../assets/shots/${name}.png`].default;
   .work__meta { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 14px 8px; }
   .work__meta b { font-weight: 500; font-size: clamp(17px, 1.4vw, 20px); letter-spacing: -0.02em; }
   .work__mock { margin-left: 10px; font-style: normal; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 7px; border-radius: 6px; border: 1px solid var(--line-strong); color: var(--muted); vertical-align: 2px; }
+  .work__live { margin-left: 10px; font-style: normal; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px 3px 20px; border-radius: 6px; background: color-mix(in srgb, #3ecf8e 16%, transparent); color: #3ecf8e; vertical-align: 2px; position: relative; }
+  .work__live::before { content: ""; position: absolute; left: 8px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: #3ecf8e; }
   .work__meta span { font-size: 14px; color: var(--muted); text-align: right; }
   @media (min-width: 900px) {
     .works { grid-template-columns: repeat(2, minmax(0, 1fr)); }
