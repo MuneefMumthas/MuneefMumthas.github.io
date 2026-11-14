@@ -10,9 +10,11 @@
         "h": 2.33
       },
       {
-        "text": "1 in right now",
         "label": "Live count from the door",
-        "missing": true
+        "x": 12.22,
+        "y": 86.26,
+        "w": 18.8,
+        "h": 2.99
       },
       {
         "label": "Members and staff sign in here",
@@ -56,7 +58,7 @@
         "label": "Who is training now",
         "x": 5.56,
         "y": 90.63,
-        "w": 9.12,
+        "w": 9.75,
         "h": 2.26
       }
     ]
@@ -86,9 +88,11 @@
         "h": 2.31
       },
       {
-        "text": "person in",
         "label": "Live count vs capacity",
-        "missing": true
+        "x": 81.03,
+        "y": 63.11,
+        "w": 10.43,
+        "h": 2.99
       }
     ]
   },
@@ -96,9 +100,11 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "text": "person in",
         "label": "Who is in now",
-        "missing": true
+        "x": 41.39,
+        "y": 28.27,
+        "w": 12.29,
+        "h": 4.24
       },
       {
         "label": "Busy or quiet, in plain words",
@@ -161,9 +167,9 @@
       },
       {
         "label": "Who keeps to their plan",
-        "x": 68.76,
+        "x": 68.31,
         "y": 35.63,
-        "w": 15.87,
+        "w": 16.12,
         "h": 5.17
       }
     ]
@@ -175,7 +181,7 @@
         "label": "Each chart says what it means",
         "x": 23.33,
         "y": 18.3,
-        "w": 34.1,
+        "w": 32.78,
         "h": 2.31
       },
       {
@@ -295,14 +301,14 @@
       {
         "label": "Today's program",
         "x": 9.23,
-        "y": 32.58,
+        "y": 29.91,
         "w": 73.33,
         "h": 2.7
       },
       {
         "label": "Log sets, spot records",
         "x": 9.23,
-        "y": 73.3,
+        "y": 70.64,
         "w": 17.57,
         "h": 3.1
       }
