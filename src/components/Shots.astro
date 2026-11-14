@@ -1,6 +1,7 @@
 ---
 // A project shown through its real screens: a short intro, then the walkthrough.
-// Screens and mark positions come from qa/tools/capture.mjs into src/assets/<dir>/ (report.json beside the PNGs).
+// Screens and mark positions come from qa/tools/capture.mjs into src/assets/<dir>/ (report.json beside the PNGs);
+// the same screens in the app's light theme sit in src/assets/<dir>/light/.
 import Tour, { type Mark, type Step } from "./Tour.astro";
 
 type Data = {
@@ -24,12 +25,13 @@ interface Props {
 }
 const { id, name, dir, data, accent } = Astro.props;
 const shots = import.meta.glob<{ default: ImageMetadata }>("../assets/*/*.png", { eager: true });
+const lights = import.meta.glob<{ default: ImageMetadata }>("../assets/*/light/*.png", { eager: true });
 const reports = import.meta.glob<{ default: Record<string, { cards: Mark[] }> }>("../assets/*/report.json", { eager: true });
 const report = reports[`../assets/${dir}/report.json`]?.default ?? {};
 const steps: Step[] = data.steps.map((s) => {
   const img = shots[`../assets/${dir}/${s.id}.png`];
   if (!img) throw new Error(`missing screen ${dir}/${s.id}.png`);
-  return { ...s, img: img.default, marks: report[s.id]?.cards ?? [] };
+  return { ...s, img: img.default, imgLight: lights[`../assets/${dir}/light/${s.id}.png`]?.default, marks: report[s.id]?.cards ?? [] };
 });
 ---
 

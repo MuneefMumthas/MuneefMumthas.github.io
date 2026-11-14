@@ -135,6 +135,9 @@ table { border-collapse: collapse; }
 .theme::before { content: ""; position: absolute; inset: -8px; }
 .theme span { position: absolute; top: 4px; left: 4px; width: 20px; height: 20px; border-radius: 50%; background: var(--fg); transition: transform 420ms var(--ease-arrive), background-color var(--t-state) var(--ease-state); }
 [data-theme="light"] .theme span { transform: translateX(20px); }
+/* Real app screens captured in both of the app's themes: the site theme picks which one shows. */
+img.shot-light, [data-theme="light"] img.shot-dark { display: none; }
+[data-theme="light"] img.shot-light { display: block; }
 
 .page { padding-block: clamp(28px, 5vw, 72px) var(--section); }
 .page__title { font-weight: 500; font-size: clamp(64px, 11vw, 168px); line-height: 0.95; letter-spacing: -0.055em; }

@@ -4,7 +4,10 @@ import Base from "../../layouts/Base.astro";
 import { site, work } from "../../content";
 
 const shots = import.meta.glob<{ default: ImageMetadata }>("../../assets/shots/*.png", { eager: true });
+const lights = import.meta.glob<{ default: ImageMetadata }>("../../assets/shots/light/*.png", { eager: true });
 const image = (name: string) => shots[`../../assets/shots/${name}.png`].default;
+// A real screen also captured in the app's light theme shows that version when the site is light.
+const light = (name: string) => lights[`../../assets/shots/light/${name}.png`]?.default;
 ---
 
 <Base title="Work · Muneef Mumthas" back={{ href: "/", label: site.home }}>
@@ -21,8 +24,19 @@ const image = (name: string) => shots[`../../assets/shots/${name}.png`].default;
                   alt={`${item.name} ${work.imageAlt}`}
                   widths={[480, 800, 1200, 1600]}
                   sizes={item.wide ? "(min-width: 900px) 80vw, 84vw" : "(min-width: 900px) 40vw, 84vw"}
+                  class={light(item.image) ? "shot-dark" : undefined}
                   loading={i < 2 ? "eager" : "lazy"}
                 />
+                {light(item.image) && (
+                  <Image
+                    src={light(item.image)!}
+                    alt={`${item.name} ${work.imageAlt}`}
+                    class="shot-light"
+                    widths={[480, 800, 1200, 1600]}
+                    sizes={item.wide ? "(min-width: 900px) 80vw, 84vw" : "(min-width: 900px) 40vw, 84vw"}
+                    loading="lazy"
+                  />
+                )}
               </span>
               <span class="work__meta">
                 <b>{item.name}{item.live && <em class="work__live">{work.liveTag}</em>}{item.mock && <em class="work__mock">{work.mockTag}</em>}</b>

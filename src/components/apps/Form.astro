@@ -5,11 +5,13 @@ import { Image } from "astro:assets";
 import { form } from "../../content";
 import report from "../../assets/form/report.json";
 import hero from "../../assets/shots/form.png";
+import heroLight from "../../assets/shots/light/form.png";
 import Tour, { type Mark, type Step } from "../Tour.astro";
 
 const shots = import.meta.glob<{ default: ImageMetadata }>("../../assets/form/*.png", { eager: true });
 const measured = report as Record<string, { cards: Mark[] }>;
-const steps: Step[] = form.steps.map((s) => ({ ...s, img: shots[`../../assets/form/${s.id}.png`].default, marks: measured[s.id]?.cards ?? [] }));
+const lights = import.meta.glob<{ default: ImageMetadata }>("../../assets/form/light/*.png", { eager: true });
+const steps: Step[] = form.steps.map((s) => ({ ...s, img: shots[`../../assets/form/${s.id}.png`].default, imgLight: lights[`../../assets/form/light/${s.id}.png`]?.default, marks: measured[s.id]?.cards ?? [] }));
 ---
 
 <article class="app fx" id="form" data-app="form">
@@ -30,7 +32,8 @@ const steps: Step[] = form.steps.map((s) => ({ ...s, img: shots[`../../assets/fo
       </p>
     </div>
     <figure class="fx-hero__media">
-      <Image src={hero} alt={form.heroAlt} widths={[720, 1200, 1800, 2400]} sizes="(min-width: 1100px) 60vw, 100vw" loading="eager" />
+      <Image src={hero} alt={form.heroAlt} class="shot-dark" widths={[720, 1200, 1800, 2400]} sizes="(min-width: 1100px) 60vw, 100vw" loading="eager" />
+      <Image src={heroLight} alt={form.heroAlt} class="shot-light" widths={[720, 1200, 1800, 2400]} sizes="(min-width: 1100px) 60vw, 100vw" loading="eager" />
     </figure>
     <dl class="fx-facts">
       {

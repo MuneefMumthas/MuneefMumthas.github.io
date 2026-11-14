@@ -4,7 +4,8 @@ import graph from "../../assets/workflow.json";
 import Tour, { type Mark, type Step } from "../Tour.astro";
 import report from "../../assets/n8n/report.json";
 const n8nShots = import.meta.glob<{ default: ImageMetadata }>("../../assets/n8n/*.png", { eager: true });
-const tourSteps: Step[] = engine.steps.map((s) => ({ ...s, img: n8nShots[`../../assets/n8n/${s.id}.png`].default, marks: (report as Record<string, { cards: Mark[] }>)[s.id]?.cards ?? [] }));
+const n8nLights = import.meta.glob<{ default: ImageMetadata }>("../../assets/n8n/light/*.png", { eager: true });
+const tourSteps: Step[] = engine.steps.map((s) => ({ ...s, img: n8nShots[`../../assets/n8n/${s.id}.png`].default, imgLight: n8nLights[`../../assets/n8n/light/${s.id}.png`]?.default, marks: (report as Record<string, { cards: Mark[] }>)[s.id]?.cards ?? [] }));
 
 // The exported graph is laid out for n8n's canvas. It is stretched a little so the labels are readable here.
 const KX = 1.3;
