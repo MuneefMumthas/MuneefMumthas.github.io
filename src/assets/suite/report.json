@@ -1,0 +1,217 @@
+{
+  "home": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Each app behind one sign-in",
+        "x": 22.29,
+        "y": 34.56,
+        "w": 21.18,
+        "h": 4.89
+      },
+      {
+        "label": "What needs you, across apps",
+        "x": 22.01,
+        "y": 70.11,
+        "w": 73.26,
+        "h": 2.44
+      },
+      {
+        "label": "Roles decide what opens",
+        "x": 60.66,
+        "y": 87.67,
+        "w": 7.41,
+        "h": 2.44
+      }
+    ]
+  },
+  "finance": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Target set by the budget",
+        "x": 22.01,
+        "y": 25.67,
+        "w": 12.55,
+        "h": 2.67
+      },
+      {
+        "label": "Cash across accounts",
+        "x": 21.74,
+        "y": 44.67,
+        "w": 16.06,
+        "h": 2.44
+      },
+      {
+        "label": "What to do today",
+        "x": 22.01,
+        "y": 74.56,
+        "w": 7.69,
+        "h": 2.44
+      },
+      {
+        "label": "Income by service",
+        "x": 67.15,
+        "y": 74.44,
+        "w": 28.13,
+        "h": 2.44
+      }
+    ]
+  },
+  "invoices": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Unpaid, at a glance",
+        "x": 21.74,
+        "y": 36.56,
+        "w": 22.48,
+        "h": 2.44
+      },
+      {
+        "label": "Search anything",
+        "x": 20.56,
+        "y": 28.89,
+        "w": 49.75,
+        "h": 4.44
+      },
+      {
+        "label": "Due date on every line",
+        "x": 29.79,
+        "y": 49.78,
+        "w": 58.42,
+        "h": 2.44
+      }
+    ]
+  },
+  "expenses": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Spot missing bills",
+        "x": 73.08,
+        "y": 30.56,
+        "w": 22.48,
+        "h": 2.44
+      },
+      {
+        "label": "Numbered and categorised",
+        "x": 27.01,
+        "y": 43.78,
+        "w": 61.87,
+        "h": 2.44
+      },
+      {
+        "label": "Add it with the bill",
+        "x": 86.62,
+        "y": 9.78,
+        "w": 10.12,
+        "h": 4.44
+      }
+    ]
+  },
+  "employees": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Search the team",
+        "x": 20.56,
+        "y": 16.89,
+        "w": 26.67,
+        "h": 4.44
+      },
+      {
+        "label": "Pay basis per person",
+        "x": 77.25,
+        "y": 24.83,
+        "w": 8.03,
+        "h": 2.44
+      },
+      {
+        "label": "Add someone",
+        "x": 86.03,
+        "y": 9.78,
+        "w": 10.7,
+        "h": 4.44
+      }
+    ]
+  },
+  "attendance": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Clock-ins from the app",
+        "x": 69.83,
+        "y": 9.89,
+        "w": 8.57,
+        "h": 4.44
+      },
+      {
+        "label": "Payable days, worked out",
+        "x": 89.63,
+        "y": 17.22,
+        "w": 7.03,
+        "h": 7
+      },
+      {
+        "label": "Close the month for pay",
+        "x": 86.72,
+        "y": 9.89,
+        "w": 10.02,
+        "h": 4.44
+      }
+    ]
+  },
+  "salary": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Warns before pay is final",
+        "x": 23.89,
+        "y": 18.44,
+        "w": 62.91,
+        "h": 2.44
+      },
+      {
+        "label": "Net pay for everyone",
+        "x": 59.2,
+        "y": 28.78,
+        "w": 17.48,
+        "h": 2.44
+      },
+      {
+        "label": "Cost to the company",
+        "x": 77.8,
+        "y": 28.78,
+        "w": 17.48,
+        "h": 2.44
+      }
+    ]
+  },
+  "presets": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "A job sets its access",
+        "x": 22.01,
+        "y": 18.56,
+        "w": 61.22,
+        "h": 2.44
+      },
+      {
+        "label": "Access per app",
+        "x": 27.44,
+        "y": 24.11,
+        "w": 7.19,
+        "h": 2.67
+      },
+      {
+        "label": "Add a role",
+        "x": 87.4,
+        "y": 9.78,
+        "w": 9.34,
+        "h": 4.44
+      }
+    ]
+  }
+}

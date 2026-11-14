@@ -90,6 +90,8 @@ const max = 100;
   .loand__verdict { font-size: clamp(24px, 3cqw, 32px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
   .loand__verdict.is-yes { color: #3ecf8e; }
   .loand__verdict.is-no { color: #ef7b5b; }
+  [data-theme="light"] .loand__verdict.is-yes { color: #137a50; }
+  [data-theme="light"] .loand__verdict.is-no { color: #b5401c; }
   .loand__meta { font-size: 12px; color: var(--muted); }
   .loand__conds { display: grid; gap: 6px; margin-top: 6px; }
   .loand__conds li { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); font-size: 14px; animation: app-in 400ms var(--ease-arrive) both; animation-delay: calc(var(--k) * 40ms); }

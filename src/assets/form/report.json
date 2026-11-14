@@ -3,19 +3,23 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Customise repaints the whole site in the gym's colour and name, as you type.",
-        "x": 76.26,
-        "y": 3.56
+        "label": "Recolour the site live",
+        "x": 73.78,
+        "y": 2.39,
+        "w": 4.95,
+        "h": 2.33
       },
       {
-        "label": "The live count from the door scanner, on the home page.",
-        "x": 21.62,
-        "y": 87.76
+        "text": "1 in right now",
+        "label": "Live count from the door",
+        "missing": true
       },
       {
-        "label": "One sign-in takes members, coaches and staff into the app.",
-        "x": 88.6,
-        "y": 3.56
+        "label": "Members and staff sign in here",
+        "x": 83.59,
+        "y": 1.33,
+        "w": 10.02,
+        "h": 4.44
       }
     ]
   },
@@ -23,14 +27,18 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Members check how busy it is before they leave home.",
-        "x": 24.17,
-        "y": 63.33
+        "label": "How busy, before you leave",
+        "x": 6.39,
+        "y": 55.93,
+        "w": 35.56,
+        "h": 14.81
       },
       {
-        "label": "Counts come from the existing face or card scanner.",
-        "x": 69.58,
-        "y": 83.38
+        "label": "From the door scanner",
+        "x": 63.01,
+        "y": 81.36,
+        "w": 13.15,
+        "h": 4.03
       }
     ]
   },
@@ -38,14 +46,18 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Five roles, one sign-in. Each sees only its own data.",
-        "x": 65.68,
-        "y": 51.09
+        "label": "Five roles, one sign-in",
+        "x": 61.61,
+        "y": 49.93,
+        "w": 8.15,
+        "h": 2.31
       },
       {
-        "label": "Even the sign-in screen shows who is training now.",
-        "x": 10.12,
-        "y": 91.76
+        "label": "Who is training now",
+        "x": 5.56,
+        "y": 90.63,
+        "w": 9.12,
+        "h": 2.26
       }
     ]
   },
@@ -53,24 +65,30 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Money collected, compared with last month.",
-        "x": 33.89,
-        "y": 18.86
+        "label": "Money in vs last month",
+        "x": 23.06,
+        "y": 17.85,
+        "w": 21.67,
+        "h": 2.02
       },
       {
-        "label": "Pulse gathers everything waiting on the owner.",
-        "x": 82.16,
-        "y": 49.27
+        "label": "Everything waiting on you",
+        "x": 73.66,
+        "y": 48.14,
+        "w": 16.99,
+        "h": 2.26
       },
       {
-        "label": "Money or visits over the last 30 days.",
-        "x": 29.16,
-        "y": 50.54
+        "label": "Last 30 days",
+        "x": 23.33,
+        "y": 49.39,
+        "w": 11.65,
+        "h": 2.31
       },
       {
-        "label": "Live count against capacity, with how busy that is.",
-        "x": 87.77,
-        "y": 64.6
+        "text": "person in",
+        "label": "Live count vs capacity",
+        "missing": true
       }
     ]
   },
@@ -78,19 +96,23 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Who is in now, out of the floor's capacity.",
-        "x": 48.13,
-        "y": 30.39
+        "text": "person in",
+        "label": "Who is in now",
+        "missing": true
       },
       {
-        "label": "Busier than usual or a good time, said in plain words.",
-        "x": 79.91,
-        "y": 23.77
+        "label": "Busy or quiet, in plain words",
+        "x": 64.26,
+        "y": 21.65,
+        "w": 31.29,
+        "h": 4.24
       },
       {
-        "label": "Today against a normal day, hour by hour.",
-        "x": 42.73,
-        "y": 59.8
+        "label": "Today vs a normal day",
+        "x": 23.33,
+        "y": 58.65,
+        "w": 38.8,
+        "h": 2.31
       }
     ]
   },
@@ -98,19 +120,25 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Member requests, ready to approve with a reply.",
-        "x": 31.39,
-        "y": 19.01
+        "label": "Requests to approve",
+        "x": 23.61,
+        "y": 17.85,
+        "w": 15.56,
+        "h": 2.31
       },
       {
-        "label": "Leads, equipment reports and community posts in one place.",
-        "x": 81.26,
-        "y": 24.45
+        "label": "Leads, faults and posts",
+        "x": 68.5,
+        "y": 23.32,
+        "w": 25.53,
+        "h": 2.26
       },
       {
-        "label": "Who renews this week, before they lapse.",
-        "x": 31.36,
-        "y": 56.86
+        "label": "Renewals this week",
+        "x": 25.28,
+        "y": 55.85,
+        "w": 12.16,
+        "h": 2.02
       }
     ]
   },
@@ -118,19 +146,25 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Find anyone by name, member code, phone or email.",
-        "x": 59.44,
-        "y": 18.3
+        "label": "Search members",
+        "x": 21.67,
+        "y": 15.63,
+        "w": 75.56,
+        "h": 5.33
       },
       {
-        "label": "Filter by status; freeze several members at once.",
-        "x": 39.07,
-        "y": 24.74
+        "label": "Filter and freeze in bulk",
+        "x": 37.5,
+        "y": 23.57,
+        "w": 3.14,
+        "h": 2.33
       },
       {
-        "label": "How well each member keeps to their plan.",
-        "x": 76.69,
-        "y": 38.21
+        "label": "Who keeps to their plan",
+        "x": 68.76,
+        "y": 35.63,
+        "w": 15.87,
+        "h": 5.17
       }
     ]
   },
@@ -138,14 +172,18 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Every chart carries one plain sentence saying what it means.",
-        "x": 40.38,
-        "y": 19.45
+        "label": "Each chart says what it means",
+        "x": 23.33,
+        "y": 18.3,
+        "w": 34.1,
+        "h": 2.31
       },
       {
-        "label": "How many monthly members paid again.",
-        "x": 78.75,
-        "y": 62.25
+        "label": "Monthly renewals",
+        "x": 61.94,
+        "y": 61.09,
+        "w": 33.61,
+        "h": 2.31
       }
     ]
   },
@@ -153,14 +191,18 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Rules in plain words: renewals, missed visits, milestones.",
-        "x": 42.27,
-        "y": 22.25
+        "label": "Rules in plain words",
+        "x": 23.33,
+        "y": 20.98,
+        "w": 37.87,
+        "h": 2.53
       },
       {
-        "label": "Run a rule now to see who it would nudge.",
-        "x": 65.93,
-        "y": 34.26
+        "label": "Test a rule first",
+        "x": 61.58,
+        "y": 31.82,
+        "w": 8.7,
+        "h": 4.89
       }
     ]
   },
@@ -168,14 +210,18 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Pick the gym's colour; text stays readable on it.",
-        "x": 78.75,
-        "y": 28.37
+        "label": "Pick the gym's colour",
+        "x": 61.94,
+        "y": 27.36,
+        "w": 33.61,
+        "h": 2.02
       },
       {
-        "label": "Save once and every member's app repaints.",
-        "x": 67.79,
-        "y": 69.36
+        "label": "Every app repaints",
+        "x": 61.94,
+        "y": 66.91,
+        "w": 11.69,
+        "h": 4.89
       }
     ]
   },
@@ -183,19 +229,25 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Today's sessions, marked done in one tap.",
-        "x": 41.43,
-        "y": 32.71
+        "label": "Today's sessions",
+        "x": 21.67,
+        "y": 31.45,
+        "w": 39.52,
+        "h": 2.53
       },
       {
-        "label": "Check-ins to review and reports of discomfort.",
-        "x": 80.04,
-        "y": 32.71
+        "label": "Check-ins and injuries",
+        "x": 62.85,
+        "y": 31.45,
+        "w": 34.37,
+        "h": 2.53
       },
       {
-        "label": "How the coach's clients are keeping up.",
-        "x": 84.07,
-        "y": 18.86
+        "label": "Client progress",
+        "x": 72.31,
+        "y": 17.85,
+        "w": 23.52,
+        "h": 2.02
       }
     ]
   },
@@ -203,14 +255,18 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Build a program once, as a template.",
-        "x": 40.14,
-        "y": 16.89
+        "label": "Build a template",
+        "x": 21.67,
+        "y": 15.63,
+        "w": 36.94,
+        "h": 2.53
       },
       {
-        "label": "Then give it to each client and adjust.",
-        "x": 78.75,
-        "y": 16.89
+        "label": "Assign and adjust",
+        "x": 60.28,
+        "y": 15.63,
+        "w": 36.94,
+        "h": 2.53
       }
     ]
   },
@@ -218,14 +274,18 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Invites, replies and reminders, in one line.",
-        "x": 46.85,
-        "y": 18.37
+        "label": "Invites and reminders",
+        "x": 22.05,
+        "y": 17.17,
+        "w": 49.6,
+        "h": 2.4
       },
       {
-        "label": "Rings for training, visits and water.",
-        "x": 38.64,
-        "y": 53.81
+        "label": "Training, visits, water",
+        "x": 14.87,
+        "y": 52.73,
+        "w": 47.54,
+        "h": 2.15
       }
     ]
   },
@@ -233,14 +293,18 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "The coach's program, day by day.",
-        "x": 45.9,
-        "y": 33.93
+        "label": "Today's program",
+        "x": 9.23,
+        "y": 32.58,
+        "w": 73.33,
+        "h": 2.7
       },
       {
-        "label": "Log sets as you go; records are flagged.",
-        "x": 18.01,
-        "y": 74.85
+        "label": "Log sets, spot records",
+        "x": 9.23,
+        "y": 73.3,
+        "w": 17.57,
+        "h": 3.1
       }
     ]
   },
@@ -248,14 +312,18 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "Book a class and see how full it is.",
-        "x": 21.64,
-        "y": 51.62
+        "label": "Book a class",
+        "x": 8.21,
+        "y": 50.54,
+        "w": 26.88,
+        "h": 2.15
       },
       {
-        "label": "Full? Join the waitlist instead.",
-        "x": 78.82,
-        "y": 71.84
+        "label": "Join the waitlist",
+        "x": 65.85,
+        "y": 69.71,
+        "w": 25.95,
+        "h": 4.27
       }
     ]
   },
@@ -263,14 +331,18 @@
     "leftoverPlaces": "",
     "cards": [
       {
-        "label": "The member card, shown at the desk.",
-        "x": 50,
-        "y": 51.28
+        "label": "Member card",
+        "x": 15.38,
+        "y": 50.21,
+        "w": 69.23,
+        "h": 2.15
       },
       {
-        "label": "Freezes, guest passes and questions, with the team's answers.",
-        "x": 41.39,
-        "y": 70.47
+        "label": "Freezes, guest passes, questions",
+        "x": 5.13,
+        "y": 69.12,
+        "w": 72.52,
+        "h": 2.7
       }
     ]
   }

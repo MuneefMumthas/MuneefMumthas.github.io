@@ -1,0 +1,64 @@
+---
+// A project shown through its real screens: a short intro, then the walkthrough.
+// Screens and mark positions come from qa/tools/capture.mjs into src/assets/<dir>/ (report.json beside the PNGs).
+import Tour, { type Mark, type Step } from "./Tour.astro";
+
+type Data = {
+  eyebrow: string;
+  title: string;
+  body: string[];
+  tourTitle: string;
+  tourNote?: string;
+  chapters: { id: string; name: string }[];
+  steps: { id: string; chapter: string; title: string; url?: string; phone?: boolean }[];
+  note?: string;
+  stack?: string;
+  links?: { label: string; href: string }[];
+};
+interface Props {
+  id: string;
+  name: string;
+  dir: string;
+  data: Data;
+  accent?: string;
+}
+const { id, name, dir, data, accent } = Astro.props;
+const shots = import.meta.glob<{ default: ImageMetadata }>("../assets/*/*.png", { eager: true });
+const reports = import.meta.glob<{ default: Record<string, { cards: Mark[] }> }>("../assets/*/report.json", { eager: true });
+const report = reports[`../assets/${dir}/report.json`]?.default ?? {};
+const steps: Step[] = data.steps.map((s) => {
+  const img = shots[`../assets/${dir}/${s.id}.png`];
+  if (!img) throw new Error(`missing screen ${dir}/${s.id}.png`);
+  return { ...s, img: img.default, marks: report[s.id]?.cards ?? [] };
+});
+---
+
+<article class="app shots" id={id} data-app={id}>
+  <div class="intro intro--split">
+    <p class="t-label">{data.eyebrow}</p>
+    <h2 class="t-headline">{data.title}</h2>
+    <div class="prose">
+      {data.body.map((p) => <p>{p}</p>)}
+      {
+        data.links && (
+          <p class="shots__links">
+            {data.links.map((l, i) => (
+              <a class:list={["btn", { "btn--solid": i === 0 }]} href={l.href} rel="noopener">
+                {l.label}
+              </a>
+            ))}
+          </p>
+        )
+      }
+    </div>
+  </div>
+  <Tour name={name} title={data.tourTitle} note={data.tourNote} chapters={data.chapters} steps={steps} accent={accent} />
+  {data.note && <p class="caption"><span class="tag">Sample data</span>{data.note}</p>}
+  {data.stack && <p class="t-label shots__stack">{data.stack}</p>}
+</article>
+
+<style is:global>
+  .shots .fx-tour { margin-top: clamp(40px, 6vw, 80px); }
+  .shots__links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .shots__stack { margin-top: 18px; line-height: 1.6; }
+</style>

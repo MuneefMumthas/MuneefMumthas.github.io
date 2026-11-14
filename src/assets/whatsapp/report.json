@@ -1,0 +1,222 @@
+{
+  "today": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "New leads today",
+        "x": 20.63,
+        "y": 70.93,
+        "w": 16.6,
+        "h": 2.17
+      },
+      {
+        "label": "Answered by the assistant",
+        "x": 80,
+        "y": 70.93,
+        "w": 16.6,
+        "h": 2.17
+      },
+      {
+        "label": "Chats it handed over",
+        "x": 19.44,
+        "y": 85.65,
+        "w": 8.29,
+        "h": 2.83
+      }
+    ]
+  },
+  "chat": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Answered from the shop's knowledge",
+        "x": 23.4,
+        "y": 90.33,
+        "w": 18.82,
+        "h": 2.33
+      },
+      {
+        "label": "Handed-over chats",
+        "x": 27.58,
+        "y": 21.69,
+        "w": 6.72,
+        "h": 2.17
+      },
+      {
+        "label": "Lead stage beside the chat",
+        "x": 48.13,
+        "y": 5.67,
+        "w": 42.92,
+        "h": 2.17
+      }
+    ]
+  },
+  "handover": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Asks for a person",
+        "x": 46.11,
+        "y": 21.94,
+        "w": 18.88,
+        "h": 2.71
+      },
+      {
+        "label": "The assistant steps back",
+        "x": 65.73,
+        "y": 10.39,
+        "w": 15.96,
+        "h": 2.67
+      },
+      {
+        "label": "Tells the customer",
+        "x": 23.4,
+        "y": 64.5,
+        "w": 17.29,
+        "h": 2.33
+      }
+    ]
+  },
+  "leads": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Every chat becomes a lead",
+        "x": 19.44,
+        "y": 8.44,
+        "w": 22.25,
+        "h": 2.5
+      },
+      {
+        "label": "Import with consent",
+        "x": 82.71,
+        "y": 6.5,
+        "w": 6.85,
+        "h": 4.44
+      },
+      {
+        "label": "Stage and value",
+        "x": 48,
+        "y": 96.31,
+        "w": 4.75,
+        "h": 2.33
+      }
+    ]
+  },
+  "pipeline": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Drag between stages",
+        "x": 19.44,
+        "y": 8.44,
+        "w": 25.48,
+        "h": 2.5
+      },
+      {
+        "label": "Value on each card",
+        "x": 84.51,
+        "y": 20.64,
+        "w": 13.75,
+        "h": 2.5
+      }
+    ]
+  },
+  "mai": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "On or off in one switch",
+        "x": 25.07,
+        "y": 17.08,
+        "w": 40.56,
+        "h": 2.67
+      },
+      {
+        "label": "Qualifies the lead",
+        "x": 61.88,
+        "y": 52.06,
+        "w": 29.03,
+        "h": 2.5
+      },
+      {
+        "label": "What it says when it hands over",
+        "x": 60.76,
+        "y": 62,
+        "w": 35.56,
+        "h": 2.17
+      }
+    ]
+  },
+  "automations": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Keyword replies",
+        "x": 24.24,
+        "y": 15.5,
+        "w": 28.47,
+        "h": 2.5
+      },
+      {
+        "label": "Follow-ups that stop on reply",
+        "x": 63.82,
+        "y": 15.5,
+        "w": 28.47,
+        "h": 2.5
+      }
+    ]
+  },
+  "campaigns": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Sent from your own WhatsApp Web",
+        "x": 20.83,
+        "y": 21.94,
+        "w": 22.78,
+        "h": 3
+      },
+      {
+        "label": "A daily cap",
+        "x": 20.83,
+        "y": 33.34,
+        "w": 3.87,
+        "h": 2
+      },
+      {
+        "label": "Two wordings, rotated",
+        "x": 20.63,
+        "y": 52.72,
+        "w": 32.89,
+        "h": 2.67
+      }
+    ]
+  },
+  "reports": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Conversion",
+        "x": 60.21,
+        "y": 22.17,
+        "w": 16.6,
+        "h": 2.17
+      },
+      {
+        "label": "Leads per day",
+        "x": 20.9,
+        "y": 38.33,
+        "w": 9.15,
+        "h": 2.67
+      },
+      {
+        "label": "Lead sources",
+        "x": 60.9,
+        "y": 73.67,
+        "w": 14.19,
+        "h": 2.67
+      }
+    ]
+  }
+}

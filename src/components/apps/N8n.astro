@@ -1,6 +1,10 @@
 ---
 import { engine, ui } from "../../content";
 import graph from "../../assets/workflow.json";
+import Tour, { type Mark, type Step } from "../Tour.astro";
+import report from "../../assets/n8n/report.json";
+const n8nShots = import.meta.glob<{ default: ImageMetadata }>("../../assets/n8n/*.png", { eager: true });
+const tourSteps: Step[] = engine.steps.map((s) => ({ ...s, img: n8nShots[`../../assets/n8n/${s.id}.png`].default, marks: (report as Record<string, { cards: Mark[] }>)[s.id]?.cards ?? [] }));
 
 // The exported graph is laid out for n8n's canvas. It is stretched a little so the labels are readable here.
 const KX = 1.3;
@@ -109,6 +113,9 @@ const edges = graph.edges.map((edge) => {
       <p class="eng__second t-muted">{engine.second}</p>
     </div>
   </div>
+  <div class="eng__tour">
+    <Tour name="Lead engine" title={engine.tourTitle} note={engine.tourNote} chapters={engine.chapters} steps={tourSteps} accent="#ff6d5a" />
+  </div>
 </article>
 
 <script type="application/json" id="engine-data" set:html={JSON.stringify({ states: engine.labels.state, totals: engine.totals, kinds: engine.kinds })} />
@@ -142,4 +149,5 @@ const edges = graph.edges.map((edge) => {
     .eng__head { grid-template-columns: 1fr auto; align-items: end; }
     .eng__svg { --eng-scale: 0.9; }
   }
+  .eng__tour { margin-top: clamp(48px, 7vw, 96px); }
 </style>

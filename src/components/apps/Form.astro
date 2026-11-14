@@ -5,29 +5,17 @@ import { Image } from "astro:assets";
 import { form } from "../../content";
 import report from "../../assets/form/report.json";
 import hero from "../../assets/shots/form.png";
+import Tour, { type Mark, type Step } from "../Tour.astro";
 
-type Card = { label: string; x: number; y: number; missing?: boolean };
 const shots = import.meta.glob<{ default: ImageMetadata }>("../../assets/form/*.png", { eager: true });
-const img = (id: string) => shots[`../../assets/form/${id}.png`].default;
-const measured = report as Record<string, { cards: Card[] }>;
-const steps = form.steps.map((s, i) => {
-  const inChapter = form.steps.filter((t) => t.chapter === s.chapter);
-  return {
-    ...s,
-    i,
-    pos: inChapter.indexOf(s) + 1,
-    of: inChapter.length,
-    chapterName: form.chapters.find((c) => c.id === s.chapter)!.name,
-    cards: (measured[s.id]?.cards ?? []).filter((c) => !c.missing),
-  };
-});
-const firstOf = (id: string) => steps.find((s) => s.chapter === id)!.i;
+const measured = report as Record<string, { cards: Mark[] }>;
+const steps: Step[] = form.steps.map((s) => ({ ...s, img: shots[`../../assets/form/${s.id}.png`].default, marks: measured[s.id]?.cards ?? [] }));
 ---
 
 <article class="app fx" id="form" data-app="form">
   <header class="fx-hero">
     <div class="fx-hero__text">
-      <p class="t-label fx-live"><span class="fx-dot" aria-hidden="true"></span>{form.eyebrow}</p>
+      <p class="t-label">{form.eyebrow}</p>
       <h2 class="t-headline">{form.title}</h2>
       <div class="prose">{form.body.map((p) => <p>{p}</p>)}</div>
       <p class="fx-links">
@@ -56,94 +44,7 @@ const firstOf = (id: string) => steps.find((s) => s.chapter === id)!.i;
     </dl>
   </header>
 
-  <section class="fx-tour" data-tour aria-labelledby="fx-tour-title" tabindex="-1">
-    <div class="fx-tour__head">
-      <h3 class="t-title" id="fx-tour-title">{form.tourTitle}</h3>
-      <p>{form.tourNote}</p>
-    </div>
-    <div class="fx-tabs" role="tablist" aria-label={form.tourTitle}>
-      {
-        form.chapters.map((c) => (
-          <button type="button" role="tab" class="fx-tab" data-tab={c.id} data-first={firstOf(c.id)} aria-selected="false">
-            {c.name}
-            <span>{steps.filter((s) => s.chapter === c.id).length}</span>
-          </button>
-        ))
-      }
-      <span class="fx-tabs__glow" aria-hidden="true"></span>
-    </div>
-
-    <div class="fx-stage">
-      <div class="fx-screens" data-screens>
-        {
-          steps.map((s) => (
-            <figure class:list={["fx-shot", { "fx-shot--phone": s.phone, "is-active": s.i === 0 }]} data-step={s.i} data-chapter={s.chapter}>
-              <div class={s.phone ? "fx-phone" : "fx-window"}>
-                {!s.phone && (
-                  <div class="fx-bar" aria-hidden="true">
-                    <i /><i /><i />
-                    <span>{s.url}</span>
-                  </div>
-                )}
-                <div class="fx-img">
-                  <Image
-                    src={img(s.id)}
-                    alt={`FORM, ${s.chapterName}: ${s.title}`}
-                    widths={s.phone ? [390, 780] : [800, 1400, 2000]}
-                    sizes={s.phone ? "300px" : "(min-width: 1100px) 64vw, 100vw"}
-                    loading={s.i < 2 ? "eager" : "lazy"}
-                  />
-                  {s.cards.map((c, k) => (
-                    <button type="button" class:list={["fx-pin", { "fx-pin--left": c.x > 62 }]} style={`--x:${c.x}%; --y:${c.y}%; --k:${k}`} data-pin={k} tabindex="-1">
-                      <span>{k + 1}</span>
-                      <em>{c.label}</em>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </figure>
-          ))
-        }
-      </div>
-
-      <div class="fx-notes">
-        <div class="fx-notes__stack" aria-live="polite">
-          {
-            steps.map((s) => (
-              <div class:list={["fx-note", { "is-active": s.i === 0 }]} data-note={s.i}>
-                <p class="t-label">
-                  {s.chapterName} · {s.pos} of {s.of}
-                </p>
-                <h4>{s.title}</h4>
-                <ol>
-                  {s.cards.map((c, k) => (
-                    <li data-pin={k} style={`--k:${k}`}>
-                      <span>{k + 1}</span>
-                      {c.label}
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            ))
-          }
-        </div>
-        <div class="fx-ctrl">
-          <button type="button" class="fx-btn" data-prev aria-label={form.controls.prev}>
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M10 3L5 8l5 5" /></svg>
-          </button>
-          <button type="button" class="fx-btn fx-btn--play" data-play aria-label={form.controls.pause} data-play-label={form.controls.play} data-pause-label={form.controls.pause} aria-pressed="true">
-            <svg class="fx-i-pause" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="4" y="3" width="3" height="10" rx="1" /><rect x="9" y="3" width="3" height="10" rx="1" /></svg>
-            <svg class="fx-i-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 3.5v9l8-4.5z" /></svg>
-          </button>
-          <button type="button" class="fx-btn" data-next aria-label={form.controls.next}>
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3l5 5-5 5" /></svg>
-          </button>
-          <span class="fx-count t-mono" data-count>1 / {steps.length}</span>
-          <span class="fx-progress" aria-hidden="true"><span data-progress></span></span>
-        </div>
-      </div>
-    </div>
-  </section>
+  <Tour name="FORM" title={form.tourTitle} note={form.tourNote} chapters={form.chapters} steps={steps} accent="#ff5a1f" />
 
   <p class="caption"><span class="tag">Demo data</span>{form.note}</p>
   <p class="t-label fx-stack">{form.stack}</p>
@@ -153,21 +54,13 @@ const firstOf = (id: string) => steps.find((s) => s.chapter === id)!.i;
   /* ---- Hero */
   .fx-hero { display: grid; gap: clamp(28px, 4vw, 48px); align-items: center; }
   .fx-hero__text { display: grid; gap: 18px; align-content: start; }
-  .fx-live { display: inline-flex; align-items: center; gap: 10px; }
-  .fx-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #3ecf8e; }
-  .fx-dot::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1.5px solid #3ecf8e; animation: fx-ping 2.2s var(--ease-arrive) infinite; }
-  @keyframes fx-ping {
-    from { transform: scale(0.4); opacity: 1; }
-    to { transform: scale(1.6); opacity: 0; }
-  }
   .fx-hero .t-headline { max-width: 14ch; }
   .fx-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
   .fx-links .btn { gap: 8px; }
   .fx-links svg { width: 14px; height: 14px; transition: transform 420ms var(--ease-arrive); }
   .fx-links .btn:hover svg { transform: translate(2px, -2px); }
   .fx-hero__media { margin: 0; position: relative; }
-  .fx-hero__media::before { content: ""; position: absolute; inset: 12% 8% 0; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, #ff5a1f 34%, transparent), transparent); filter: blur(40px); z-index: -1; opacity: 0.55; }
-  .fx-hero__media :global(img) { width: 100%; height: auto; animation: fx-float 1400ms var(--ease-arrive) both; }
+  .fx-hero__media img { width: 100%; height: auto; animation: fx-float 1400ms var(--ease-arrive) both; }
   @keyframes fx-float {
     from { opacity: 0; transform: translateY(40px) scale(0.97); }
   }
@@ -180,103 +73,7 @@ const firstOf = (id: string) => steps.find((s) => s.chapter === id)!.i;
     .fx-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   }
 
-  /* ---- Walkthrough */
-  .fx-tour { margin-top: clamp(56px, 8vw, 110px); display: grid; gap: 18px; outline: none; }
-  .fx-tour__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
-  .fx-tour__head p { color: var(--muted); font-size: 15px; }
-  .fx-tabs { position: relative; display: inline-flex; gap: 4px; padding: 5px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); justify-self: start; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
-  .fx-tab { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font: inherit; font-size: 15px; font-weight: 500; white-space: nowrap; cursor: pointer; transition: color 300ms var(--ease-state); }
-  .fx-tab span { font-family: var(--mono); font-size: 11px; opacity: 0.7; }
-  .fx-tab[aria-selected="true"] { color: #0b0b0c; }
-  .fx-tabs__glow { position: absolute; z-index: 0; top: 5px; bottom: 5px; left: 0; width: 0; border-radius: 999px; background: var(--fg); transition: transform 520ms var(--ease-arrive), width 520ms var(--ease-arrive); }
-  :global([data-theme="light"]) .fx-tab[aria-selected="true"] { color: #fff; }
-
-  .fx-stage { display: grid; gap: 16px; }
-  /* The desktop screens set the stage's height; phone screens sit inside it, scaled to fit. */
-  .fx-screens { --pad: clamp(10px, 2cqw, 26px); position: relative; display: grid; padding: var(--pad); border-radius: var(--radius); background: radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, #ff5a1f 12%, var(--surface)), var(--surface) 60%); border: 1px solid var(--line); overflow: hidden; }
-  .fx-shot { grid-area: 1 / 1; margin: 0; display: grid; place-items: center; opacity: 0; visibility: hidden; transform: translateY(14px) scale(0.985); transition: opacity 600ms var(--ease-arrive), transform 700ms var(--ease-arrive), visibility 0s 600ms; }
-  .fx-shot--phone { position: absolute; inset: var(--pad); }
-  .fx-shot.is-active { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
-  .fx-window { width: 100%; border-radius: 14px; overflow: hidden; background: #0c0c0d; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 40px 80px -40px rgba(0, 0, 0, 0.7); }
-  .fx-bar { display: flex; align-items: center; gap: 7px; height: 34px; padding: 0 14px; background: #18181a; }
-  .fx-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3e; }
-  .fx-bar span { margin-left: 12px; padding: 4px 12px; border-radius: 8px; background: #0f0f10; color: #8e8e94; font-family: var(--mono); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  /* A phone sits whole in the stage: as tall as the stage allows, its width following the screen's shape. */
-  .fx-phone { position: absolute; top: 0; bottom: 0; left: 50%; translate: -50% 0; height: auto; aspect-ratio: 408 / 862; padding: 9px; border-radius: 46px; background: #050505; box-shadow: 0 0 0 2px #2a2a2d, 0 40px 80px -30px rgba(0, 0, 0, 0.8); }
-  .fx-phone .fx-img { width: 100%; height: 100%; border-radius: 38px; overflow: hidden; }
-  .fx-img { position: relative; --ox: 50%; --oy: 50%; transform-origin: var(--ox) var(--oy); transition: transform 900ms var(--ease-arrive); }
-  .fx-img :global(img) { display: block; width: 100%; height: auto; }
-  .fx-phone .fx-img :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-  .fx-shot--phone { display: block; }
-  .fx-img.is-zoom { transform: scale(1.08); }
-  .fx-window .fx-img.is-zoom { transform: scale(1.12); }
-
-  /* Numbered pins on the screen, measured from the real element they describe. */
-  .fx-pin { position: absolute; left: var(--x); top: var(--y); width: 30px; height: 30px; margin: -15px 0 0 -15px; padding: 0; border: 0; background: none; cursor: pointer; }
-  .fx-pin span { position: relative; z-index: 1; display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #ff5a1f; color: #0b0b0c; font-family: var(--mono); font-size: 12px; font-weight: 700; box-shadow: 0 0 0 4px rgba(255, 90, 31, 0.28), 0 6px 18px -4px rgba(0, 0, 0, 0.6); transform: scale(0); transition: transform 300ms var(--ease-arrive), box-shadow 300ms var(--ease-arrive); }
-  .fx-pin::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #ff5a1f; opacity: 0; }
-  .is-active .fx-pin span { animation: fx-pop 600ms var(--ease-arrive) both; animation-delay: calc(450ms + var(--k) * 140ms); }
-  .is-active .fx-pin::before { animation: fx-ring 2.4s var(--ease-arrive) infinite; animation-delay: calc(1s + var(--k) * 300ms); }
-  @keyframes fx-pop {
-    from { transform: scale(0); }
-    60% { transform: scale(1.18); }
-    to { transform: scale(1); }
-  }
-  @keyframes fx-ring {
-    from { transform: scale(1); opacity: 0.8; }
-    to { transform: scale(2.2); opacity: 0; }
-  }
-  .fx-pin em { position: absolute; z-index: 2; top: 50%; left: calc(100% + 10px); width: max-content; max-width: 260px; padding: 8px 12px; border-radius: 10px; background: rgba(12, 12, 13, 0.92); color: #f2f2f2; font-style: normal; font-size: 13px; line-height: 1.35; text-align: left; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 16px 32px -12px rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); opacity: 0; transform: translate(-6px, -50%); transition: opacity 260ms var(--ease-state), transform 360ms var(--ease-arrive); pointer-events: none; }
-  .fx-pin--left em { left: auto; right: calc(100% + 10px); transform: translate(6px, -50%); }
-  .fx-pin.is-hot { z-index: 3; }
-  .fx-pin.is-hot span { box-shadow: 0 0 0 6px rgba(255, 90, 31, 0.4), 0 8px 22px -4px rgba(0, 0, 0, 0.6); }
-  .fx-pin.is-hot em { opacity: 1; transform: translate(0, -50%); }
-  .fx-shot--phone .fx-pin em { max-width: 180px; }
-
-  .fx-notes { display: grid; gap: 14px; align-content: space-between; padding: 22px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
-  .fx-notes__stack { display: grid; }
-  .fx-note { grid-area: 1 / 1; display: grid; gap: 10px; align-content: start; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 420ms var(--ease-arrive), transform 520ms var(--ease-arrive), visibility 0s 420ms; }
-  .fx-note.is-active { opacity: 1; visibility: visible; transform: none; transition-delay: 120ms; }
-  .fx-note h4 { font-size: clamp(24px, 2.4cqw, 32px); font-weight: 500; letter-spacing: -0.03em; }
-  .fx-note ol { display: grid; gap: 6px; margin-top: 4px; }
-  .fx-note li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start; padding: 10px 12px; border-radius: 12px; font-size: 15px; line-height: 1.45; color: var(--muted); cursor: default; transition: background-color 260ms var(--ease-state), color 260ms var(--ease-state); }
-  .fx-note li span { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line-strong); color: var(--fg); font-family: var(--mono); font-size: 12px; transition: background-color 260ms, color 260ms, border-color 260ms; }
-  .fx-note li.is-hot { background: var(--glass-hover); color: var(--fg); }
-  .fx-note li.is-hot span { background: #ff5a1f; border-color: #ff5a1f; color: #0b0b0c; }
-  .fx-note.is-active li { animation: app-in 600ms var(--ease-arrive) both; animation-delay: calc(200ms + var(--k) * 90ms); }
-
-  .fx-ctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-  .fx-btn { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); background: transparent; color: var(--fg); cursor: pointer; transition: background-color 260ms var(--ease-state), border-color 260ms; }
-  .fx-btn:hover { background: var(--glass-hover); }
-  .fx-btn svg { width: 16px; height: 16px; }
-  .fx-btn--play .fx-i-play, .fx-btn--play[aria-pressed="false"] .fx-i-pause { display: none; }
-  .fx-btn--play[aria-pressed="false"] .fx-i-play { display: block; }
-  .fx-count { margin-left: 4px; font-size: 12px; color: var(--muted); }
-  .fx-progress { flex: 1 1 100%; height: 3px; border-radius: 3px; background: var(--line); overflow: hidden; }
-  .fx-progress span { display: block; height: 100%; width: 100%; background: #ff5a1f; transform-origin: left; transform: scaleX(0); }
-  .fx-progress span.is-running { animation: fx-run var(--dur, 7s) linear both; }
-  .fx-progress span.is-held { animation-play-state: paused; }
-  @keyframes fx-run {
-    to { transform: scaleX(1); }
-  }
+  .fx .fx-tour { margin-top: clamp(56px, 8vw, 110px); }
   .fx-stack { margin-top: 18px; line-height: 1.6; }
-
-  /* Phones: pins stay, their labels move to the numbered list below the screen. */
-  .fx-pin em { display: none; }
-  @container os (min-width: 760px) {
-    .fx-pin em { display: block; }
-  }
-  @container os (max-width: 759px) {
-    .fx-pin { width: 22px; height: 22px; margin: -11px 0 0 -11px; }
-    .fx-pin span { font-size: 10px; }
-    .fx-phone { padding: 5px; border-radius: 26px; }
-    .fx-phone .fx-img { border-radius: 22px; }
-  }
-  @container os (min-width: 1100px) {
-    .fx-stage { grid-template-columns: minmax(0, 1fr) 340px; align-items: stretch; }
-  }
 </style>
 
-<script>
-  import "../../scripts/form";
-</script>

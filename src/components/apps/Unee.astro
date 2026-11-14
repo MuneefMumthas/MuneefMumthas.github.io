@@ -218,6 +218,7 @@ const sure = (options: { p: number }[]) => Math.max(...options.map((o) => o.p)) 
   .strict__removed { color: var(--muted); }
   /* The strike is drawn across the sentence as the check reaches it. */
   .strict__removed span { background: linear-gradient(currentColor, currentColor) 0 58% / calc(var(--g) * 100%) 1.5px no-repeat; }
+  [data-theme="light"] .strict__why { color: #5b3fd6; }
   .strict__why { font-size: 13px; color: var(--accent); opacity: clamp(0, calc((var(--t) - 0.54) / 0.08), 1); }
   .strict__kept { padding-left: 14px; border-left: 2px solid var(--fg); opacity: clamp(0, calc((var(--t) - 0.62) / 0.1), 1); }
   .strict__results { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }

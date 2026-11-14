@@ -12,8 +12,8 @@ const n = research.pipeline.length;
     </div>
 
     <!-- The plan moves through six steps and never crosses the boundary. Driven by --enter. -->
-    <figure class="block rflow theme-light" style={`--n:${n}`}>
-      <div class="rflow__box" role="img" aria-label={research.diagramAlt}>
+    <figure class="block rflow" style={`--n:${n}`}>
+      <div class="rflow__box theme-light" role="img" aria-label={research.diagramAlt}>
         <p class="t-label rflow__title">{research.boundary}</p>
         <ol class="rflow__steps">
           {research.pipeline.map((step, i) => <li style={`--k:${i}`}><span class="t-mono">{String(i + 1).padStart(2, "0")}</span>{step}</li>)}

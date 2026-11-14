@@ -1,0 +1,91 @@
+{
+  "canvas": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Start from one form",
+        "x": 10.04,
+        "y": 54.73,
+        "w": 3.72,
+        "h": 0.62
+      },
+      {
+        "label": "208 tasks, one by one",
+        "x": 20.28,
+        "y": 54.73,
+        "w": 3.72,
+        "h": 0.62
+      },
+      {
+        "label": "Deduplicate at the end",
+        "x": 24.93,
+        "y": 44.8,
+        "w": 3.72,
+        "h": 1.24
+      },
+      {
+        "label": "A checkpoint after every task",
+        "x": 80.47,
+        "y": 47.28,
+        "w": 3.72,
+        "h": 0.62
+      }
+    ]
+  },
+  "loop": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Start a scraper job",
+        "x": 26.24,
+        "y": 60.93,
+        "w": 6.13,
+        "h": 1.02
+      },
+      {
+        "label": "Wait, then check",
+        "x": 40.55,
+        "y": 54.38,
+        "w": 6.13,
+        "h": 2.04
+      },
+      {
+        "label": "Failures branch off",
+        "x": 61.5,
+        "y": 65.01,
+        "w": 6.13,
+        "h": 1.02
+      }
+    ]
+  },
+  "checkpoints": {
+    "forbiddenLeft": "",
+    "cards": [
+      {
+        "label": "Enrich from each site and score",
+        "x": 64.85,
+        "y": 43.36,
+        "w": 6.13,
+        "h": 1.02
+      },
+      {
+        "label": "Write the checkpoint",
+        "x": 85.8,
+        "y": 43.36,
+        "w": 6.13,
+        "h": 1.02
+      },
+      {
+        "label": "A failed task keeps its own file",
+        "x": 64.85,
+        "y": 63.8,
+        "w": 6.13,
+        "h": 1.02
+      }
+    ]
+  },
+  "code": {
+    "forbiddenLeft": "",
+    "cards": []
+  }
+}

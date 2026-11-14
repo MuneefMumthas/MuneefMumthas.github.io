@@ -1,50 +1,65 @@
-// FORM's walkthrough: chapters, previous and next, autoplay while on screen, and pins tied to their notes.
-const tour = document.querySelector<HTMLElement>("[data-tour]");
-if (tour) {
+// Screen walkthroughs (components/Tour.astro): chapters, previous and next, and autoplay while on screen.
+// While playing, each screen lights its marks one by one; pointing at a mark or its note lights both and zooms in.
+const MARK_MS = 1800;
+const LEAD_MS = 900;
+
+for (const tour of document.querySelectorAll<HTMLElement>("[data-tour]")) {
   const shots = [...tour.querySelectorAll<HTMLElement>("[data-step]")];
   const notes = [...tour.querySelectorAll<HTMLElement>("[data-note]")];
   const tabs = [...tour.querySelectorAll<HTMLButtonElement>("[data-tab]")];
-  const glow = tour.querySelector<HTMLElement>(".fx-tabs__glow")!;
+  const glow = tour.querySelector<HTMLElement>(".fx-tabs__glow");
   const count = tour.querySelector<HTMLElement>("[data-count]")!;
   const bar = tour.querySelector<HTMLElement>("[data-progress]")!;
   const play = tour.querySelector<HTMLButtonElement>("[data-play]")!;
-  const STEP_MS = 7000;
+  const stage = tour.querySelector<HTMLElement>(".fx-stage")!;
   let index = 0;
-  let playing = true;
+  let playing = !matchMedia("(prefers-reduced-motion: reduce)").matches;
   let visible = false;
   let held = false;
-  let timer = 0;
+  let timers: number[] = [];
+
+  play.setAttribute("aria-pressed", String(playing));
+  play.setAttribute("aria-label", playing ? play.dataset.pauseLabel! : play.dataset.playLabel!);
+  const marksOf = (i: number) => shots[i].querySelectorAll(".fx-pin").length;
+  const stepMs = (i: number) => Math.max(6000, LEAD_MS + marksOf(i) * MARK_MS + 1600);
 
   const placeGlow = (tab: HTMLButtonElement) => {
+    if (!glow) return;
     glow.style.width = `${tab.offsetWidth}px`;
     glow.style.transform = `translateX(${tab.offsetLeft}px)`;
   };
 
-  const restartBar = () => {
-    bar.classList.remove("is-running");
-    void bar.offsetWidth;
-    if (playing) bar.classList.add("is-running");
+  const hot = (k: number | null, zoom = false) => {
+    const shot = shots[index];
+    const img = shot.querySelector<HTMLElement>(".fx-img")!;
+    shot.querySelectorAll<HTMLElement>(".fx-pin").forEach((p) => p.classList.toggle("is-hot", Number(p.dataset.pin) === k));
+    notes[index].querySelectorAll<HTMLElement>("li").forEach((li) => li.classList.toggle("is-hot", Number(li.dataset.pin) === k));
+    const pin = k === null ? null : shot.querySelector<HTMLElement>(`.fx-pin[data-pin="${k}"]`);
+    if (pin && zoom) {
+      const v = (n: string) => parseFloat(pin.style.getPropertyValue(n)) || 0;
+      img.style.setProperty("--ox", `${v("--x") + v("--w") / 2}%`);
+      img.style.setProperty("--oy", `${v("--y") + v("--h") / 2}%`);
+    }
+    img.classList.toggle("is-zoom", Boolean(pin && zoom));
+  };
+
+  const clear = () => {
+    timers.forEach(clearTimeout);
+    timers = [];
   };
 
   const schedule = () => {
-    clearTimeout(timer);
-    restartBar();
+    clear();
+    bar.style.setProperty("--dur", `${stepMs(index)}ms`);
+    bar.classList.remove("is-running");
+    void bar.offsetWidth;
+    if (playing) bar.classList.add("is-running");
     bar.classList.toggle("is-held", held || !visible);
-    if (playing && visible && !held) timer = window.setTimeout(() => go(index + 1), STEP_MS);
-  };
-
-  const hot = (k: number | null) => {
-    const shot = shots[index];
-    const note = notes[index];
-    const img = shot.querySelector<HTMLElement>(".fx-img")!;
-    shot.querySelectorAll<HTMLElement>(".fx-pin").forEach((p) => p.classList.toggle("is-hot", Number(p.dataset.pin) === k));
-    note.querySelectorAll<HTMLElement>("li").forEach((li) => li.classList.toggle("is-hot", Number(li.dataset.pin) === k));
-    const pin = k === null ? null : shot.querySelector<HTMLElement>(`.fx-pin[data-pin="${k}"]`);
-    if (pin) {
-      img.style.setProperty("--ox", pin.style.getPropertyValue("--x"));
-      img.style.setProperty("--oy", pin.style.getPropertyValue("--y"));
-    }
-    img.classList.toggle("is-zoom", pin !== null);
+    if (!playing || !visible || held) return;
+    // On narrow screens a desktop screenshot is small, so autoplay also zooms in on each mark.
+    const zoom = stage.clientWidth < 760 && !shots[index].classList.contains("fx-shot--phone");
+    for (let k = 0; k < marksOf(index); k++) timers.push(window.setTimeout(() => hot(k, zoom), LEAD_MS + k * MARK_MS));
+    timers.push(window.setTimeout(() => go(index + 1), stepMs(index)));
   };
 
   const go = (next: number) => {
@@ -69,6 +84,7 @@ if (tour) {
     playing = !playing;
     play.setAttribute("aria-pressed", String(playing));
     play.setAttribute("aria-label", playing ? play.dataset.pauseLabel! : play.dataset.playLabel!);
+    if (!playing) hot(null);
     schedule();
   });
   tour.addEventListener("keydown", (e) => {
@@ -78,27 +94,28 @@ if (tour) {
     e.preventDefault();
   });
 
-  // Pointing at a pin or its note lights both and holds the tour on this screen.
-  const hold = (on: boolean) => {
-    held = on;
-    schedule();
-  };
+  // Pointing at the stage holds the tour; pointing at a mark or its note lights both.
   tour.addEventListener("pointerover", (e) => {
     const el = (e.target as HTMLElement).closest<HTMLElement>("[data-pin]");
-    if (el) hot(Number(el.dataset.pin));
+    if (el) hot(Number(el.dataset.pin), true);
   });
   tour.addEventListener("pointerout", (e) => {
     const from = (e.target as HTMLElement).closest("[data-pin]");
     const to = (e.relatedTarget as HTMLElement | null)?.closest?.("[data-pin]");
     if (from && from !== to) hot(null);
   });
-  tour.querySelector(".fx-stage")!.addEventListener("pointerenter", () => hold(true));
-  tour.querySelector(".fx-stage")!.addEventListener("pointerleave", () => {
+  stage.addEventListener("pointerenter", (e) => {
+    if (e.pointerType !== "mouse") return;
+    // A mark may already be lit by this same move (pointerover fires first), so only the autoplay stops here.
+    held = true;
+    schedule();
+  });
+  stage.addEventListener("pointerleave", () => {
     hot(null);
-    hold(false);
+    held = false;
+    schedule();
   });
 
-  // Autoplay only while the tour is on screen.
   new IntersectionObserver(
     ([entry]) => {
       visible = entry.isIntersecting;

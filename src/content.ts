@@ -58,9 +58,9 @@ export const work = {
   items: [
     { slug: "form", name: "FORM", category: "Gym platform", image: "form", wide: true, live: true },
     { slug: "unee", name: "Unee", category: "Open language models", image: "unee", wide: false },
-    { slug: "operations-suite", name: "Operations suite", category: "Full-stack platform", image: "suite", wide: false, mock: true },
-    { slug: "lead-generation", name: "Lead generation automation", category: "n8n workflows", image: "n8n", wide: true, mock: true },
-    { slug: "whatsapp-crm", name: "WhatsApp CRM", category: "AI assistant", image: "whatsapp", wide: false, mock: true },
+    { slug: "operations-suite", name: "Operations suite", category: "Full-stack platform", image: "suite", wide: false },
+    { slug: "lead-generation", name: "Lead generation automation", category: "n8n workflows", image: "n8n", wide: true },
+    { slug: "whatsapp-crm", name: "WhatsApp CRM", category: "AI assistant", image: "whatsapp", wide: false },
     { slug: "uneeflow", name: "UNEEFLOW", category: "No-code machine learning", image: "uneeflow", wide: false },
     { slug: "survey-plan-analysis", name: "Survey plan analysis", category: "Privacy-first AI", image: "more", wide: true },
     { slug: "aws-secure-web", name: "AWS Secure Web System", category: "Cloud architecture", image: "aws", wide: false, mock: true },
@@ -182,162 +182,60 @@ export const unee = {
 };
 
 export const ecosystem = {
-  eyebrow: "Operations suite",
+  eyebrow: "Operations suite · Full-stack platform",
   title: "One sign-in. Every app behind it.",
   body: [
-    "An operations platform I designed and built from scratch: one sign-in, with finance, HR, employee self-service, admin, tasks, CRM, proposals and client portals as separate apps.",
-    "Stack: React, TypeScript, Vite, Tailwind CSS, a PHP API and SQLite.",
+    "An operations platform I designed and built from scratch: finance, HR, employee self-service and admin as separate apps behind one sign-in, with roles deciding what each person can open.",
   ],
-  points: [
-    { name: "Workflows it automates", text: "A CRM lead becomes a proposal and a client plan. A confirmed salary becomes a payslip and a bank salary file. Weekly, monthly and board reports are generated on demand." },
-    { name: "Finance", text: "Ledger with invoices, receipts, bank reconciliation, budgets and a multi-page board pack." },
-    { name: "HR", text: "Employee records, attendance, leave, payslips and statutory summaries." },
-    { name: "Admin", text: "Roles and per-app access, authenticator sign-in, a hash-chained audit log, signed releases that can be rolled back from the browser, and encrypted off-site backups." },
+  tourTitle: "Inside the suite",
+  tourNote: "Real screens, run locally with sample data.",
+  chapters: [
+    { id: "home", name: "Home" },
+    { id: "finance", name: "Finance" },
+    { id: "hr", name: "HR" },
+    { id: "admin", name: "Admin" },
   ],
-  caption: "An interactive recreation with sample data. Everything in it works.",
-  suite: {
-    name: "Operations Suite",
-    user: "Maya",
-    role: "Admin",
-    signIn: {
-      title: "Sign in once",
-      email: "maya@demo.example",
-      emailLabel: "Work email",
-      codeLabel: "Authenticator code",
-      code: "482 913",
-      button: "Sign in",
-      hint: "Demo sign-in. No real account.",
-    },
-    home: { greeting: "Good morning, Maya", sub: "Everything behind one sign-in.", back: "All apps", signOut: "Sign out" },
-    apps: [
-      { id: "tasks", name: "Tasks", does: "Work, reviews and who is doing what", open: true },
-      { id: "admin", name: "Admin", does: "Roles, releases and the audit log", open: true },
-      { id: "crm", name: "CRM", does: "A lead becomes a proposal and a client plan", open: true },
-      { id: "finance", name: "Finance", does: "Ledger, invoices, receipts, bank reconciliation, budgets, board pack", open: false },
-      { id: "hr", name: "HR", does: "Employee records, attendance, leave, payslips, statutory summaries", open: false },
-      { id: "me", name: "Me", does: "Your profile, attendance, leave and payslips", open: false },
-      { id: "proposals", name: "Proposals", does: "Proposals and client plans", open: false },
-    ],
-    notInDemo: "Described above. Not part of this recreation.",
-    tasks: {
-      title: "Brand refresh",
-      kicker: "Project board",
-      tip: "Drag a card to another column, or focus a card and press the left and right arrow keys.",
-      columns: [
-        { id: "backlog", name: "Backlog" },
-        { id: "doing", name: "In progress" },
-        { id: "review", name: "In review" },
-        { id: "done", name: "Done" },
-      ],
-      cards: [
-        { id: "t1", title: "Brochure layout", who: "KT", col: "backlog" },
-        { id: "t2", title: "Colour tokens", who: "NA", col: "backlog" },
-        { id: "t3", title: "Homepage copy", who: "IR", col: "doing" },
-        { id: "t4", title: "Brand guide PDF", who: "KT", col: "review" },
-        { id: "t5", title: "Logo file handover", who: "NA", col: "done" },
-      ],
-      forward: "Move right",
-      back: "Move left",
-      approve: "Approve",
-      submitted: "Submitted for review",
-      approved: "Approved",
-    },
-    admin: {
-      title: "Releases",
-      kicker: "Admin",
-      intro: "Each app is released on its own. Only signed releases can go live. Rolling back changes the app's code only.",
-      live: "Live",
-      signed: "Signed",
-      rollBack: "Roll back to this release",
-      releases: [
-        { app: "Platform", versions: ["1.4.0", "1.3.2"] },
-        { app: "Tasks", versions: ["1.2.1", "1.2.0"] },
-      ],
-      auditTitle: "Audit log",
-      auditIntro: "Every action you take in this recreation is added here. Each entry's hash is SHA-256 of the entry and the hash before it, computed in your browser.",
-      verify: "Verify the chain",
-      tamper: "Tamper with entry 2",
-      restore: "Undo the tampering",
-      intact: "Chain intact.",
-      broken: "Chain broken at entry",
-      tampered: "(edited after the fact)",
-      columns: ["#", "Action", "Hash", "Previous"],
-      seed: ["Signed in with authenticator code", "Opened Admin"],
-    },
-    crm: {
-      title: "Lead to client plan",
-      kicker: "CRM",
-      intro: "One lead, carried through without retyping.",
-      lead: { name: "Harbour Cafe (sample)", need: "New menu design and a month of social posts" },
-      steps: [
-        { label: "Lead", action: "Create proposal", done: "Lead qualified" },
-        { label: "Proposal", action: "Mark as accepted", done: "Proposal drafted from the lead" },
-        { label: "Client plan", action: "", done: "Client plan created from the proposal" },
-      ],
-      reset: "Start again",
-    },
-    log: {
-      signedIn: "Signed in with authenticator code",
-      opened: "Opened",
-      moved: "Moved task",
-      to: "to",
-      approved: "Approved task",
-      rolledBack: "Rolled back",
-      proposal: "Created proposal from lead",
-      plan: "Created client plan from proposal",
-    },
-  },
+  steps: [
+    { id: "home", chapter: "home", title: "Home", url: "/" },
+    { id: "finance", chapter: "finance", title: "Dashboard", url: "/finance" },
+    { id: "invoices", chapter: "finance", title: "Invoices", url: "/finance/invoices" },
+    { id: "expenses", chapter: "finance", title: "Expenses", url: "/finance/expenses" },
+    { id: "employees", chapter: "hr", title: "Employees", url: "/hr/employees" },
+    { id: "attendance", chapter: "hr", title: "Attendance", url: "/hr/attendance" },
+    { id: "salary", chapter: "hr", title: "Salary confirmations", url: "/hr/salary" },
+    { id: "presets", chapter: "admin", title: "Roles and presets", url: "/admin/presets" },
+  ],
+  note: "The company, people and figures are sample data.",
+  stack: "React, TypeScript, Vite, Tailwind CSS, PHP 8.3, SQLite",
 };
 
 export const chat = {
-  eyebrow: "WhatsApp CRM",
+  eyebrow: "WhatsApp CRM · AI assistant",
   title: "An assistant that knows when to hand over.",
   body: [
-    "A WhatsApp CRM with an AI assistant. It answers enquiries from each business's own knowledge, qualifies the lead, follows up automatically and hands over to a person when it is unsure.",
+    "A WhatsApp CRM with an AI assistant. Every chat becomes a lead. The assistant answers from the business's own knowledge, qualifies the lead and hands over to a person when it is unsure. Follow-ups, campaigns and reports run beside it.",
   ],
-  caption: "A scripted recreation with a sample business. It is not connected to a model.",
-  business: "Demo Florist",
-  status: { assistant: "Assistant is answering", person: "Needs a person" },
-  prompt: "Send a customer message",
-  reset: "Reset the chat",
-  knowledgeTitle: "What the business taught it",
-  knowledge: [
-    { id: "delivery", title: "Delivery", text: "Monday to Saturday, 9:00 to 18:00. Same-day orders close at 14:00." },
-    { id: "weddings", title: "Wedding work", text: "Table arrangements are made to order. A deposit holds the date." },
-    { id: "hours", title: "Shop hours", text: "Open Monday to Saturday. Closed on Sundays." },
+  tourTitle: "Inside the CRM",
+  tourNote: "Real screens, run locally with sample data.",
+  chapters: [
+    { id: "chats", name: "Chats" },
+    { id: "leads", name: "Leads" },
+    { id: "assistant", name: "Assistant" },
+    { id: "growth", name: "Campaigns" },
   ],
-  leadTitle: "Lead",
-  leadEmpty: "No lead yet",
-  usedLabel: "Answered from",
-  scripts: [
-    {
-      id: "delivery",
-      chip: "Do you deliver on Sundays?",
-      customer: "Hi, do you deliver on Sundays?",
-      reply: "We deliver Monday to Saturday, 9:00 to 18:00. We are closed on Sundays. Would Saturday or Monday suit you?",
-      uses: ["delivery", "hours"],
-      lead: null,
-      handover: false,
-    },
-    {
-      id: "wedding",
-      chip: "12 table arrangements for a wedding",
-      customer: "I need 12 table arrangements for a wedding on 14 June.",
-      reply: "Congratulations. Table arrangements are made to order, and a deposit holds the date. What colours do you have in mind, and what is your budget per table?",
-      uses: ["weddings"],
-      lead: { need: "12 table arrangements", date: "14 June", stage: "Qualified", followUp: "Follow-up set for tomorrow, 10:00" },
-      handover: false,
-    },
-    {
-      id: "quote",
-      chip: "Can you match another shop's quote?",
-      customer: "Another shop quoted me less. Can you match their price?",
-      reply: "I am not sure about that, so I have passed this to a person. They will reply here.",
-      uses: [],
-      lead: null,
-      handover: true,
-    },
+  steps: [
+    { id: "today", chapter: "chats", title: "Today", url: "/app" },
+    { id: "chat", chapter: "chats", title: "A chat it answered", url: "/app/inbox" },
+    { id: "handover", chapter: "chats", title: "A chat it handed over", url: "/app/inbox" },
+    { id: "leads", chapter: "leads", title: "Leads", url: "/app/leads" },
+    { id: "pipeline", chapter: "leads", title: "Pipeline", url: "/app/pipeline" },
+    { id: "mai", chapter: "assistant", title: "Assistant settings", url: "/app/mai" },
+    { id: "automations", chapter: "assistant", title: "Automations", url: "/app/automations" },
+    { id: "campaigns", chapter: "growth", title: "Campaigns", url: "/app/campaigns" },
+    { id: "reports", chapter: "growth", title: "Reports", url: "/app/reports" },
   ],
+  note: "The shop and its customers are sample data. In these captures the replies come from a local stand-in, not the live model.",
+  stack: "React, TypeScript, Vite, PHP 8.3, SQLite, Chrome extension, Android app",
 };
 
 export const engine = {
@@ -361,6 +259,15 @@ export const engine = {
   },
   controls: { play: "Run", pause: "Pause", fail: "Fail this task", stop: "Stop the run", resume: "Resume from checkpoints", finish: "Skip to the final export", restart: "Start again" },
   kinds: { trigger: "Trigger", code: "Code", http: "HTTP", branch: "Branch", wait: "Wait", loop: "Loop", file: "File" } as Record<string, string>,
+  tourTitle: "In n8n",
+  tourNote: "The workflow in the n8n editor. Not run here.",
+  chapters: [{ id: "flow", name: "Workflow" }],
+  steps: [
+    { id: "canvas", chapter: "flow", title: "The whole workflow", url: "n8n" },
+    { id: "loop", chapter: "flow", title: "The task loop", url: "n8n" },
+    { id: "checkpoints", chapter: "flow", title: "Checkpoints", url: "n8n" },
+    { id: "code", chapter: "flow", title: "Enrich and score", url: "n8n" },
+  ],
 };
 
 export const uneeflow = {
@@ -408,14 +315,17 @@ export const research = {
 };
 
 
-// FORM: the gym platform Muneef builds under UNEEVERSE, shown on a made-up gym at form.uneeverse.net.
+// Controls shared by every screen walkthrough (components/Tour.astro).
+export const tourControls = { prev: "Previous screen", next: "Next screen", play: "Play", pause: "Pause" };
+
+// FORM: Muneef's gym platform, with a demo at form.uneeverse.net.
 // Facts from the project's PROJECT-CONTEXT.md and docs/DEMO.md. Screens are real captures of the live demo (demo data).
 export const form = {
-  eyebrow: "FORM · Gym platform · Live",
+  eyebrow: "FORM · Gym platform",
   title: "A gym's website and app, in its own colours.",
   body: [
-    "FORM is a made-up gym that shows the gym platform I build: a website, and one app for members, coaches, the front desk, managers and the owner. Every role sees only its own data.",
-    "It is made to be sold in the room. Customise repaints the website in the prospect's colour and name as you type, and Branding saves it for every member's app. Behind that: a live count from the door scanner, class booking with waitlists, programs and set logging, payments, leads, automations and analytics.",
+    "FORM is my gym platform: a website, and one app for members, coaches, the front desk, managers and the owner.",
+    "It covers door check-ins with a live count, class booking, programs and set logging, payments, leads and analytics. Each gym sets its own colour and name.",
   ],
   links: [
     { label: "Open the live demo", href: "https://form.uneeverse.net" },
@@ -428,8 +338,8 @@ export const form = {
     { value: "~3 s", label: "from a door scan to every screen" },
   ],
   heroAlt: "FORM's owner overview in a browser, and the member app on a phone",
-  tourTitle: "Walk through it",
-  tourNote: "Real screens from the live demo, with its demo data. Hover a number, or let it play.",
+  tourTitle: "Inside the app",
+  tourNote: "Screens from the live demo.",
   chapters: [
     { id: "site", name: "Website" },
     { id: "owner", name: "Owner" },
@@ -454,8 +364,7 @@ export const form = {
     { id: "member-schedule", chapter: "member", title: "Schedule", phone: true },
     { id: "member-club", chapter: "member", title: "The club", phone: true },
   ],
-  controls: { prev: "Previous screen", next: "Next screen", play: "Play", pause: "Pause" },
-  note: "FORM is a made-up gym. The people, payments and visits are demo data.",
+  note: "The people, payments and visits are sample data.",
   stack: "React 19, TypeScript, Vite, TanStack Query, PHP 8.3, SQLite, installable web app",
 };
 
